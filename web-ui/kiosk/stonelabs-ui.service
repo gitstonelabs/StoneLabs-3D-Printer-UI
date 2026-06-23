@@ -1,0 +1,34 @@
+[Unit]
+Description=StoneLabs Printer UI (Chromium kiosk)
+# Wait for graphics + network; Moonraker is contacted at runtime (UI retries on its own).
+After=systemd-user-sessions.service network-online.target
+Wants=network-online.target
+
+[Service]
+# Run as your login user so it owns the display session.
+User=__USER__
+PAMName=login
+TTYPath=/dev/tty7
+# Minimal X session bound to tty7; cage/weston also work on Wayland (see install.sh).
+Environment=XAUTHORITY=/home/__USER__/.Xauthority
+Environment=DISPLAY=:0
+
+# URL the kiosk opens. Same-origin via Moonraker static files is easiest (no CORS).
+# Override by editing /etc/default/stonelabs-ui (KIOSK_URL=...).
+EnvironmentFile=-/etc/default/stonelabs-ui
+
+# Start X, hide the cursor, then Chromium in kiosk mode pinned to the panel size.
+ExecStart=/usr/bin/startx /usr/bin/env bash -lc '\
+  unclutter -idle 0 & \
+  exec chromium --kiosk --noerrdialogs --disable-infobars --incognito \
+    --disable-translate --disable-features=TranslateUI \
+    --disable-session-crashed-bubble --disable-pinch --overscroll-history-navigation=0 \
+    --check-for-update-interval=31536000 \
+    --window-size=1024,600 --window-position=0,0 \
+    --app="${KIOSK_URL:-http://localhost:7125/server/files/stonelabs/index.html}"'
+
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=graphical.target

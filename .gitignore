@@ -1,0 +1,13 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Tooling / uploads not meant for the repo
+uploads/
+.thumbnail
+_ds_manifest.json
+
+# If you rebuild the offline bundle locally, ignore scratch outputs
+*.tmp

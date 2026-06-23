@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Caveat";src:url("fonts/Caveat-VariableFont_wght.ttf") format("truetype-variations");font-weight:400 700;font-display:swap;}
+@font-face{font-family:"Indie Flower";src:url("fonts/IndieFlower-Regular.ttf") format("truetype");font-weight:400;font-display:swap;}
+*{box-sizing:border-box;}
+body{margin:0;background:#05060d;}
+@keyframes slToast{from{opacity:0;transform:translate(-50%,12px);}to{opacity:1;transform:translate(-50%,0);}}
+@keyframes slPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+@keyframes slSpin{to{transform:rotate(360deg);}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:36px;background:radial-gradient(120% 120% at 50% 0%,#0a0d1a 0%,#05060d 60%);font-family:'Manrope',system-ui,sans-serif;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+
+  <!-- ===== DEVICE BEZEL ===== -->
+  <div style="position:relative;padding:18px;border-radius:26px;background:linear-gradient(160deg,#23262e,#0c0d11);box-shadow:0 30px 70px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06);">
+    <div style="position:relative;width:1024px;height:600px;overflow:hidden;border-radius:10px;background:#05060d;display:flex;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);">
+
+      <!-- ===== LEFT NAV RAIL ===== -->
+      <nav style="width:140px;flex:none;height:100%;background:#0a0d1a;border-right:1px solid #1a2036;display:flex;flex-direction:column;">
+        <div style="height:66px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-bottom:1px solid #141a2c;">
+          <img src="assets/sincity-stone-logo.png" alt="StoneLabs" style="height:34px;width:auto;filter:drop-shadow(0 0 8px rgba(0,192,224,.45));">
+        </div>
+
+        <button style="{{ nav.home }}" style-hover="background:rgba(43,205,242,.07);" onClick="{{ goHome }}">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>
+          <span>Home</span>
+        </button>
+        <button style="{{ nav.printer }}" style-hover="background:rgba(43,205,242,.07);" onClick="{{ goPrinter }}">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v3M20 5v3M4 6h16"/><path d="M10 6v2.2h4V6"/><path d="m11.3 8.2.7 1.3.7-1.3"/><path d="M5 19.5h14"/><path d="M9 19.5v-3h6v3"/></svg>
+          <span>Printer</span>
+        </button>
+        <button style="{{ nav.filament }}" style-hover="background:rgba(43,205,242,.07);" onClick="{{ goFilament }}">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="7"/><circle cx="12" cy="11" r="2.4"/><path d="M12 18v3"/><path d="M9.5 21h5"/></svg>
+          <span>Filament</span>
+        </button>
+        <button style="{{ nav.maint }}" style-hover="background:rgba(43,205,242,.07);" onClick="{{ goMaint }}">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.2 5.2l-6 6a1.8 1.8 0 0 0 2.6 2.6l6-6a4 4 0 0 0 5.2-5.2l-2.5 2.5-2.4-.1-.1-2.4Z"/></svg>
+          <span>Maint</span>
+        </button>
+        <button style="{{ nav.settings }}" style-hover="background:rgba(43,205,242,.07);" onClick="{{ goSettings }}">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2.2-1.3L14 2h-4l-.4 2.5a7 7 0 0 0-2.2 1.3l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.3l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2.2 1.3L10 22h4l.4-2.5a7 7 0 0 0 2.2-1.3l2.3 1 2-3.4-2-1.5A7 7 0 0 0 19 12Z"/></svg>
+          <span>Settings</span>
+        </button>
+
+        <div style="margin-top:auto;padding:8px;">
+          <button style="width:100%;height:58px;border-radius:12px;border:1px solid #5e1f22;background:linear-gradient(180deg,#2a0f12,#1a090b);color:#ff6b6b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;font-family:'Manrope';font-weight:800;font-size:11px;letter-spacing:.12em;" style-hover="background:linear-gradient(180deg,#3a1418,#240b0e);box-shadow:0 0 0 1px rgba(255,107,107,.5),0 0 16px -4px rgba(255,107,107,.6);" onClick="{{ estop }}">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9h6v6H9z"/></svg>
+            STOP
+          </button>
+        </div>
+      </nav>
+
+      <!-- ===== RIGHT COLUMN ===== -->
+      <div style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;background:radial-gradient(140% 100% at 100% 0%,#0b1020 0%,#05060d 55%);">
+
+        <!-- HEADER -->
+        <header style="height:60px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #141a2c;background:rgba(10,13,26,.6);">
+          <div style="display:flex;flex-direction:column;line-height:1;">
+            <span style="font-family:'Caveat',cursive;font-weight:700;font-size:15px;color:#2bcdf2;margin-bottom:1px;">{{ titleAccent }}</span>
+            <span style="font-family:'Manrope';font-weight:700;font-size:19px;color:#eef0f7;letter-spacing:-.01em;">{{ titleMain }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;border:1px solid #232a45;background:#0e1322;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff8a4c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0Z"/></svg>
+              <span style="font-family:'JetBrains Mono';font-size:13px;font-weight:500;color:#d6dbeb;">{{ hdrHotend }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;border:1px solid #232a45;background:#0e1322;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5fdcff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+              <span style="font-family:'JetBrains Mono';font-size:13px;font-weight:500;color:#d6dbeb;">{{ hdrChamber }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;border:1px solid {{ connBorder }};background:{{ connBg }};" title="{{ connDetail }}">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ connDot }};{{ connAnim }}"></span>
+              <span style="font-family:'Manrope';font-weight:800;font-size:11px;color:{{ connText }};letter-spacing:.1em;">{{ connLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ statusBorder }};background:{{ statusBg }};">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ statusDot }};{{ statusAnim }}"></span>
+              <span style="font-family:'Manrope';font-weight:700;font-size:13px;color:{{ statusText }};letter-spacing:.02em;">{{ statusLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;padding-left:4px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2bcdf2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg>
+              <span style="font-family:'JetBrains Mono';font-size:15px;font-weight:500;color:#a7afcd;">{{ clock }}</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main style="flex:1;min-height:0;overflow:hidden;position:relative;">
+
+          <!-- ========== HOME ========== -->
+          <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;padding:18px 22px;display:flex;flex-direction:column;gap:12px;">
+
+            <div style="flex:none;display:flex;align-items:center;justify-content:flex-end;">
+              <div style="display:flex;gap:6px;padding:4px;background:#0b1020;border:1px solid #1a2036;border-radius:12px;">
+                <button style="{{ homeStatusBtn }}" onClick="{{ showStatus }}">Status</button>
+                <button style="{{ homeCamBtn }}" onClick="{{ showCamera }}">Camera</button>
+              </div>
+            </div>
+
+            <sc-if value="{{ homeCamera }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;position:relative;border-radius:16px;overflow:hidden;border:1px solid #232a45;background:#05060d;min-height:0;display:flex;align-items:center;justify-content:center;">
+              <sc-if value="{{ camOk }}" hint-placeholder-val="{{ false }}">{{ cameraImg }}</sc-if>
+              <sc-if value="{{ camErr }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:10px;color:#485273;">
+                  <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2f3852" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L19 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/><path d="m3 3 18 18"/></svg>
+                  <span style="font-family:'JetBrains Mono';font-size:13px;">no camera signal</span>
+                  <span style="font-family:'Manrope';font-size:12px;color:#2f3852;">set the stream URL in Settings → Camera</span>
+                </div>
+              </sc-if>
+              <div style="position:absolute;left:14px;bottom:14px;display:flex;gap:8px;">
+                <span style="display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(5,6,13,.72);border:1px solid #232a45;font-family:'JetBrains Mono';font-size:12px;color:#ff8a4c;">hotend {{ hdrHotend }}</span>
+                <span style="display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(5,6,13,.72);border:1px solid #232a45;font-family:'JetBrains Mono';font-size:12px;color:#5fdcff;">bed {{ camBed }}</span>
+                <sc-if value="{{ printing }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(5,6,13,.72);border:1px solid #232a45;font-family:'JetBrains Mono';font-size:12px;color:#2bcdf2;">{{ job.percent }}%</span>
+                </sc-if>
+              </div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ homeStatus }}" hint-placeholder-val="{{ true }}">
+
+            <sc-if value="{{ printing }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:flex;gap:16px;min-height:0;">
+              <!-- print card -->
+              <div style="flex:1.5;display:flex;flex-direction:column;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:16px;padding:18px;min-width:0;">
+                <div style="display:flex;gap:16px;min-height:0;flex:1;">
+                  <div style="width:128px;height:128px;flex:none;border-radius:12px;border:1px solid #2f3852;background:repeating-linear-gradient(135deg,#0c1426 0 6px,#0a1120 6px 12px);position:relative;overflow:hidden;box-shadow:inset 0 0 30px rgba(0,192,224,.12);">
+                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                      <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#2bcdf2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:.85;"><path d="M12 2 4 6.5v9L12 20l8-4.5v-9L12 2Z"/><path d="M4 6.5 12 11l8-4.5"/><path d="M12 11v9"/></svg>
+                    </div>
+                  </div>
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+                    <span style="font-family:'Manrope';font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2bcdf2;">{{ printEyebrow }}</span>
+                    <span style="font-family:'Manrope';font-weight:700;font-size:21px;color:#eef0f7;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ job.file }}</span>
+                    <div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;">
+                      <span style="font-family:'Caveat',cursive;font-weight:700;font-size:46px;line-height:1;color:#5fdcff;">{{ job.percent }}%</span>
+                      <span style="font-family:'JetBrains Mono';font-size:13px;color:#7079a0;">layer {{ job.layer }}</span>
+                    </div>
+                    <div style="margin-top:10px;height:8px;border-radius:999px;background:#0a1120;border:1px solid #1a2036;overflow:hidden;">
+                      <div style="height:100%;width:{{ job.percent }}%;border-radius:999px;background:linear-gradient(90deg,#0078a0,#2bcdf2);box-shadow:0 0 12px rgba(43,205,242,.6);"></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;">
+                  <div style="background:#0b1020;border:1px solid #1a2036;border-radius:10px;padding:9px 12px;">
+                    <div style="font-family:'Manrope';font-size:11px;color:#7079a0;letter-spacing:.04em;">elapsed</div>
+                    <div style="font-family:'JetBrains Mono';font-size:16px;color:#d6dbeb;margin-top:2px;">{{ job.elapsed }}</div>
+                  </div>
+                  <div style="background:#0b1020;border:1px solid #1a2036;border-radius:10px;padding:9px 12px;">
+                    <div style="font-family:'Manrope';font-size:11px;color:#7079a0;letter-spacing:.04em;">remaining</div>
+                    <div style="font-family:'JetBrains Mono';font-size:16px;color:#5fdcff;margin-top:2px;">{{ job.remaining }}</div>
+                  </div>
+                  <div style="background:#0b1020;border:1px solid #1a2036;border-radius:10px;padding:9px 12px;">
+                    <div style="font-family:'Manrope';font-size:11px;color:#7079a0;letter-spacing:.04em;">z height</div>
+                    <div style="font-family:'JetBrains Mono';font-size:16px;color:#d6dbeb;margin-top:2px;">{{ job.z }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- right: temps + controls -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;">
+                <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
+                  <sc-for list="{{ homeTemps }}" as="t" hint-placeholder-count="3">
+                    <div style="flex:1;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:12px;padding:0 16px;">
+                      <span style="width:38px;height:38px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;background:{{ t.iconBg }};">
+                        <span style="width:10px;height:10px;border-radius:50%;background:{{ t.color }};box-shadow:0 0 10px {{ t.color }};"></span>
+                      </span>
+                      <div style="flex:1;min-width:0;">
+                        <div style="font-family:'Manrope';font-size:12px;color:#7079a0;">{{ t.label }}</div>
+                        <div style="font-family:'JetBrains Mono';font-weight:500;font-size:20px;color:#eef0f7;line-height:1.1;">{{ t.value }}<span style="font-size:13px;color:#485273;">{{ t.target }}</span></div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:10px;">
+                  <button style="flex:1;height:52px;border-radius:12px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:'Manrope';font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ pause }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>{{ pauseLabel }}
+                  </button>
+                  <button style="flex:1;height:52px;border-radius:12px;border:1px solid #5e1f22;background:linear-gradient(180deg,#2a0f12,#1a090b);color:#ff6b6b;font-family:'Manrope';font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="box-shadow:0 0 0 1px rgba(255,107,107,.45);" onClick="{{ stopPrint }}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>Stop
+                  </button>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ idle }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:flex;gap:16px;min-height:0;">
+              <div style="flex:1.4;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:16px;padding:28px;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-40px;right:-30px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(0,192,224,.18),transparent 70%);"></div>
+                <span style="font-family:'Manrope';font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2bcdf2;">{{ idleEyebrow }}</span>
+                <span style="font-family:'Caveat',cursive;font-weight:700;font-size:54px;line-height:1.02;color:#eef0f7;margin-top:6px;">ready when<br>you are.</span>
+                <div style="display:flex;gap:12px;margin-top:24px;">
+                  <button style="height:54px;padding:0 24px;border-radius:12px;border:1px solid #2bcdf2;background:linear-gradient(180deg,#0a3a4a,#072836);color:#d7f7ff;font-family:'Manrope';font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;gap:9px;box-shadow:0 0 18px -4px rgba(0,192,224,.5);" style-hover="background:linear-gradient(180deg,#0c485c,#08303f);" onClick="{{ goFilamentBtn }}">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 14 9-14 9V3Z"/></svg>Filament
+                  </button>
+                  <button style="height:54px;padding:0 22px;border-radius:12px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:'Manrope';font-weight:700;font-size:16px;cursor:pointer;" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ preheat }}">Preheat</button>
+                </div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-width:0;">
+                <sc-for list="{{ homeTemps }}" as="t" hint-placeholder-count="3">
+                  <div style="flex:1;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:12px;padding:0 16px;">
+                    <span style="width:38px;height:38px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;background:{{ t.iconBg }};">
+                      <span style="width:10px;height:10px;border-radius:50%;background:{{ t.color }};box-shadow:0 0 10px {{ t.color }};"></span>
+                    </span>
+                    <div style="flex:1;min-width:0;">
+                      <div style="font-family:'Manrope';font-size:12px;color:#7079a0;">{{ t.label }}</div>
+                      <div style="font-family:'JetBrains Mono';font-weight:500;font-size:20px;color:#eef0f7;line-height:1.1;">{{ t.value }}<span style="font-size:13px;color:#485273;">{{ t.target }}</span></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            </sc-if>
+
+            </sc-if>
+
+            <!-- quick status strip -->
+            <div style="flex:none;display:flex;gap:10px;">
+              <sc-for list="{{ quickStatus }}" as="q" hint-placeholder-count="4">
+                <div style="flex:1;display:flex;align-items:center;gap:10px;height:54px;background:#0b1020;border:1px solid #1a2036;border-radius:12px;padding:0 14px;">
+                  <span style="width:9px;height:9px;border-radius:50%;background:{{ q.color }};box-shadow:0 0 8px {{ q.color }};flex:none;"></span>
+                  <div style="min-width:0;">
+                    <div style="font-family:'Manrope';font-size:11px;color:#7079a0;line-height:1.1;">{{ q.label }}</div>
+                    <div style="font-family:'Manrope';font-weight:700;font-size:14px;color:#d6dbeb;line-height:1.2;">{{ q.value }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- ========== PRINTER ========== -->
+          <sc-if value="{{ isPrinter }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;padding:16px 22px;display:flex;flex-direction:column;gap:14px;">
+            <div style="flex:none;display:flex;gap:8px;height:46px;">
+              <sc-for list="{{ printerTabs }}" as="tab" hint-placeholder-count="3">
+                <button style="{{ tab.style }}" onClick="{{ tab.on }}">{{ tab.label }}</button>
+              </sc-for>
+            </div>
+
+            <!-- MOTION -->
+            <sc-if value="{{ isMotion }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:flex;gap:16px;min-height:0;">
+              <div style="flex:1.3;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:16px;padding:16px;display:flex;gap:16px;min-width:0;">
+                <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px;">
+                  <span></span>
+                  <button style="{{ jogBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ jogYup }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 6-6 6 6"/></svg><span style="font-size:11px;font-family:'Manrope';font-weight:700;">Y+</span></button>
+                  <span></span>
+                  <button style="{{ jogBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ jogXminus }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg><span style="font-size:11px;font-family:'Manrope';font-weight:700;">X-</span></button>
+                  <button style="height:100%;border-radius:12px;border:1px solid #2f3852;background:#0b1020;color:#2bcdf2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;" style-hover="border-color:#2bcdf2;box-shadow:0 0 14px -4px rgba(0,192,224,.6);" onClick="{{ homeXY }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span style="font-size:10px;font-family:'Manrope';font-weight:700;">XY</span></button>
+                  <button style="{{ jogBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ jogXplus }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 6 6 6-6 6"/></svg><span style="font-size:11px;font-family:'Manrope';font-weight:700;">X+</span></button>
+                  <span></span>
+                  <button style="{{ jogBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ jogYdown }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 10 6 6 6-6"/></svg><span style="font-size:11px;font-family:'Manrope';font-weight:700;">Y-</span></button>
+                  <span></span>
+                </div>
+                <div style="width:84px;flex:none;display:flex;flex-direction:column;gap:8px;">
+                  <button style="{{ jogBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ jogZup }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 6-6 6 6"/></svg><span style="font-size:11px;font-family:'Manrope';font-weight:700;">Z+</span></button>
+                  <div style="flex:none;text-align:center;font-family:'JetBrains Mono';font-size:12px;color:#485273;padding:2px 0;">Z</div>
+                  <button style="{{ jogBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ jogZdown }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 10 6 6 6-6"/></svg><span style="font-size:11px;font-family:'Manrope';font-weight:700;">Z-</span></button>
+                </div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;">
+                <div style="background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:14px;padding:14px;">
+                  <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin-bottom:10px;">Step size · mm</div>
+                  <div style="display:flex;gap:8px;height:46px;">
+                    <sc-for list="{{ distOpts }}" as="d" hint-placeholder-count="3">
+                      <button style="{{ d.style }}" onClick="{{ d.on }}">{{ d.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:14px;padding:14px;flex:1;display:flex;flex-direction:column;">
+                  <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin-bottom:10px;">Home axes</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                    <button style="{{ homeAxBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ homeX }}">X</button>
+                    <button style="{{ homeAxBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ homeY }}">Y</button>
+                    <button style="{{ homeAxBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ homeZ }}">Z</button>
+                  </div>
+                  <button style="margin-top:8px;height:54px;border-radius:12px;border:1px solid #2bcdf2;background:linear-gradient(180deg,#0a3a4a,#072836);color:#d7f7ff;font-family:'Manrope';font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 0 16px -5px rgba(0,192,224,.5);" style-hover="background:linear-gradient(180deg,#0c485c,#08303f);" onClick="{{ homeAll }}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>Home all
+                  </button>
+                  <div style="margin-top:auto;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:13px;color:#7079a0;padding-top:12px;">
+                    <span>X <span style="color:{{ pos.xc }};">{{ pos.x }}</span></span>
+                    <span>Y <span style="color:{{ pos.yc }};">{{ pos.y }}</span></span>
+                    <span>Z <span style="color:{{ pos.zc }};">{{ pos.z }}</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- TEMPS -->
+            <sc-if value="{{ isTemps }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0;">
+              <sc-for list="{{ tempCards }}" as="c" hint-placeholder-count="4">
+                <div style="background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:9px;">
+                      <span style="width:9px;height:9px;border-radius:50%;background:{{ c.color }};box-shadow:0 0 10px {{ c.color }};"></span>
+                      <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:#d6dbeb;">{{ c.label }}</span>
+                    </div>
+                    <span style="font-family:'JetBrains Mono';font-size:22px;font-weight:500;color:#eef0f7;">{{ c.current }}<span style="font-size:13px;color:#485273;"> {{ c.unit }}</span><span style="font-size:13px;color:#5fdcff;">{{ c.tgt }}</span></span>
+                  </div>
+                  <div style="display:flex;gap:8px;margin-top:auto;height:44px;">
+                    <sc-for list="{{ c.presets }}" as="p" hint-placeholder-count="3">
+                      <button style="{{ p.style }}" onClick="{{ p.on }}">{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            </sc-if>
+
+            <!-- EXTRUDE -->
+            <sc-if value="{{ isExtrude }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:flex;gap:16px;min-height:0;">
+              <div style="flex:1;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:16px;padding:18px;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font-family:'Manrope';font-weight:700;font-size:16px;color:#d6dbeb;">Extruder</span>
+                  <div style="display:flex;align-items:center;gap:8px;padding:5px 11px;border-radius:999px;border:1px solid {{ extruder.guardBorder }};background:{{ extruder.guardBg }};">
+                    <span style="width:7px;height:7px;border-radius:50%;background:{{ extruder.guardDot }};"></span>
+                    <span style="font-family:'JetBrains Mono';font-size:12px;color:{{ extruder.guardText }};">{{ extruder.guardLabel }}</span>
+                  </div>
+                </div>
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin:18px 0 10px;">Distance · mm</div>
+                <div style="display:flex;gap:8px;height:46px;">
+                  <sc-for list="{{ extrudeOpts }}" as="e" hint-placeholder-count="4">
+                    <button style="{{ e.style }}" onClick="{{ e.on }}">{{ e.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:18px;">
+                  <button style="flex:1;height:64px;border-radius:14px;border:1px solid #2bcdf2;background:linear-gradient(180deg,#0a3a4a,#072836);color:#d7f7ff;font-family:'Manrope';font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 0 16px -5px rgba(0,192,224,.5);" style-hover="background:linear-gradient(180deg,#0c485c,#08303f);" onClick="{{ doExtrude }}">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>Extrude
+                  </button>
+                  <button style="flex:1;height:64px;border-radius:14px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:'Manrope';font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;" style-hover="border-color:#5b6883;color:#eef0f7;" onClick="{{ doRetract }}">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>Retract
+                  </button>
+                </div>
+              </div>
+              <div style="width:240px;flex:none;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:16px;padding:18px;display:flex;flex-direction:column;">
+                <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:#d6dbeb;">Hotend</span>
+                <span style="font-family:'JetBrains Mono';font-size:30px;font-weight:500;color:#eef0f7;margin-top:8px;">{{ hdrHotend }}</span>
+                <div style="font-family:'Manrope';font-size:12px;color:#7079a0;margin-top:14px;margin-bottom:8px;">quick heat</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <button style="{{ heatBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ heatPLA }}">PLA · 200°</button>
+                  <button style="{{ heatBtn }}" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ heatPETG }}">PETG · 240°</button>
+                  <button style="{{ heatBtn }}" style-hover="border-color:#5e1f22;color:#ff6b6b;" onClick="{{ heatOff }}">Cooldown</button>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <!-- ========== FILAMENT ========== -->
+          <sc-if value="{{ isFilament }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;padding:16px 22px;display:flex;flex-direction:column;gap:14px;">
+            <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+              <div style="display:flex;gap:8px;height:46px;overflow:hidden;">
+                <sc-for list="{{ filTabs }}" as="ft" hint-placeholder-count="3">
+                  <button style="{{ ft.style }}" onClick="{{ ft.on }}">
+                    <span style="width:8px;height:8px;border-radius:50%;background:{{ ft.dot }};flex:none;"></span>{{ ft.label }}
+                  </button>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex:none;">
+                <span style="font-family:'Manrope';font-size:11px;color:#485273;letter-spacing:.04em;">{{ cfsModeLabel }}</span>
+                <sc-if value="{{ cfsDemo }}" hint-placeholder-val="{{ true }}">
+                  <button style="width:34px;height:34px;border-radius:9px;border:1px solid #232a45;background:#0e1322;color:#a7afcd;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ cfsMinus }}">−</button>
+                  <span style="font-family:'JetBrains Mono';font-size:15px;color:#d6dbeb;width:14px;text-align:center;">{{ cfsUnits }}</span>
+                  <button style="width:34px;height:34px;border-radius:9px;border:1px solid #232a45;background:#0e1322;color:#a7afcd;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ cfsPlus }}">+</button>
+                </sc-if>
+              </div>
+            </div>
+
+            <sc-if value="{{ isExternalTab }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:flex;gap:16px;min-height:0;">
+              <div style="flex:1;background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:16px;padding:22px;display:flex;align-items:center;gap:24px;">
+                <div style="width:150px;height:150px;flex:none;border-radius:50%;border:6px solid {{ ext.color }};display:flex;align-items:center;justify-content:center;box-shadow:0 0 28px -6px {{ ext.glow }},inset 0 0 0 10px #0a0d1a;">
+                  <div style="width:46px;height:46px;border-radius:50%;background:#05060d;border:1px solid #2f3852;"></div>
+                </div>
+                <div style="flex:1;min-width:0;">
+                  <span style="font-family:'Manrope';font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2bcdf2;">External spool</span>
+                  <div style="font-family:'Manrope';font-weight:700;font-size:26px;color:#eef0f7;margin-top:4px;">{{ ext.name }}</div>
+                  <div style="display:inline-flex;align-items:center;gap:7px;margin-top:8px;padding:5px 12px;border-radius:999px;border:1px solid #2f3852;background:#0b1020;font-family:'JetBrains Mono';font-size:13px;color:#a7afcd;">{{ ext.material }} · {{ ext.percent }}% remaining</div>
+                  <div style="margin-top:16px;height:9px;border-radius:999px;background:#0a1120;border:1px solid #1a2036;overflow:hidden;max-width:360px;">
+                    <div style="height:100%;width:{{ ext.percent }}%;border-radius:999px;background:{{ ext.color }};"></div>
+                  </div>
+                  <div style="display:flex;gap:12px;margin-top:20px;">
+                    <button style="height:52px;padding:0 26px;border-radius:12px;border:1px solid #2bcdf2;background:linear-gradient(180deg,#0a3a4a,#072836);color:#d7f7ff;font-family:'Manrope';font-weight:700;font-size:15px;cursor:pointer;" style-hover="background:linear-gradient(180deg,#0c485c,#08303f);" onClick="{{ loadExt }}">Load</button>
+                    <button style="height:52px;padding:0 26px;border-radius:12px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:'Manrope';font-weight:700;font-size:15px;cursor:pointer;" style-hover="border-color:#5b6883;color:#eef0f7;" onClick="{{ unloadExt }}">Unload</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ isCfsTab }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0;">
+              <sc-for list="{{ cfsSlots }}" as="s" hint-placeholder-count="4">
+                <div style="{{ s.cardStyle }}">
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:46px;height:46px;flex:none;border-radius:50%;border:4px solid {{ s.color }};box-shadow:inset 0 0 0 6px #0a0d1a;{{ s.swatchGlow }}"></div>
+                    <div style="flex:1;min-width:0;">
+                      <div style="font-family:'Manrope';font-weight:700;font-size:16px;color:{{ s.nameColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.name }}</div>
+                      <div style="font-family:'JetBrains Mono';font-size:12px;color:#7079a0;margin-top:1px;">slot {{ s.num }} · {{ s.material }}</div>
+                    </div>
+                    <sc-if value="{{ s.loaded }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;background:rgba(63,207,142,.14);border:1px solid rgba(63,207,142,.4);font-family:'Manrope';font-weight:700;font-size:10px;letter-spacing:.06em;color:#3fcf8e;">ACTIVE</span>
+                    </sc-if>
+                  </div>
+                  <div style="margin-top:auto;display:flex;align-items:center;gap:12px;">
+                    <div style="flex:1;height:8px;border-radius:999px;background:#0a1120;border:1px solid #1a2036;overflow:hidden;">
+                      <div style="height:100%;width:{{ s.percent }}%;border-radius:999px;background:{{ s.barColor }};"></div>
+                    </div>
+                    <span style="font-family:'JetBrains Mono';font-size:13px;color:#a7afcd;width:38px;text-align:right;">{{ s.percent }}%</span>
+                    <button style="{{ s.btnStyle }}" onClick="{{ s.on }}">{{ s.btnLabel }}</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <!-- ========== MAINTENANCE ========== -->
+          <sc-if value="{{ isMaint }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;padding:16px 22px;display:flex;flex-direction:column;gap:12px;">
+            <div style="flex:none;display:flex;align-items:baseline;justify-content:space-between;">
+              <span style="font-family:'Caveat',cursive;font-weight:700;font-size:24px;color:#7079a0;line-height:1;">keep her dialed in.</span>
+              <span style="font-family:'Manrope';font-size:12px;color:#485273;letter-spacing:.02em;">tap to select · run together</span>
+            </div>
+            <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px;min-height:0;">
+              <sc-for list="{{ macros }}" as="m" hint-placeholder-count="6">
+                <button style="{{ m.cardStyle }}" style-hover="border-color:#0078a0;box-shadow:0 0 18px -6px rgba(0,192,224,.5);" onClick="{{ m.on }}">
+                  <div style="width:100%;display:flex;align-items:flex-start;justify-content:space-between;">
+                    <span style="width:44px;height:44px;border-radius:11px;background:#0b1020;border:1px solid #1a2036;display:flex;align-items:center;justify-content:center;color:{{ m.iconColor }};" dangerouslySetInnerHTML="{{ m.icon }}"></span>
+                    <span style="{{ m.checkStyle }}">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ m.checkStroke }}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg>
+                    </span>
+                  </div>
+                  <div>
+                    <div style="font-family:'Manrope';font-weight:700;font-size:16px;color:#eef0f7;">{{ m.title }}</div>
+                    <div style="font-family:'Manrope';font-size:12px;color:#7079a0;margin-top:2px;">{{ m.sub }}</div>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="flex:none;display:flex;align-items:center;gap:12px;height:52px;">
+              <span style="font-family:'Manrope';font-weight:700;font-size:13px;color:{{ maintSelColor }};flex:1;">{{ maintSelLabel }}</span>
+              <button style="{{ clearBtnStyle }}" onClick="{{ clearSel }}">Clear</button>
+              <button style="{{ runBtnStyle }}" onClick="{{ runSelected }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 14 9-14 9V3Z"/></svg>{{ runLabel }}
+              </button>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- ========== SETTINGS ========== -->
+          <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;padding:18px 22px;display:flex;gap:16px;">
+            <div style="flex:1;display:flex;flex-direction:column;gap:14px;min-width:0;">
+              <!-- connection -->
+              <div style="background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:14px;padding:16px;">
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin-bottom:12px;">Moonraker connection</div>
+                <div style="display:flex;gap:8px;margin-bottom:12px;">
+                  <input type="text" value="{{ urlValue }}" onInput="{{ onUrlInput }}" placeholder="ws://printer.local:7125/websocket" style="flex:1;height:46px;border-radius:11px;border:1px solid #2f3852;background:#0b1020;color:#eef0f7;font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;"/>
+                  <button style="height:46px;padding:0 20px;border-radius:11px;border:1px solid #2bcdf2;background:linear-gradient(180deg,#0a3a4a,#072836);color:#d7f7ff;font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;" style-hover="background:linear-gradient(180deg,#0c485c,#08303f);" onClick="{{ doConnect }}">Connect</button>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:#0b1020;border:1px solid #1a2036;border-radius:10px;">
+                  <div style="min-width:0;">
+                    <div style="font-family:'Manrope';font-weight:700;font-size:14px;color:#d6dbeb;">Klippy · {{ sysState }}</div>
+                    <div style="font-family:'JetBrains Mono';font-size:12px;color:#7079a0;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ connDetail }}</div>
+                  </div>
+                  <span style="display:inline-flex;align-items:center;gap:6px;flex:none;font-family:'Manrope';font-weight:800;font-size:12px;letter-spacing:.08em;color:{{ connText }};"><span style="width:7px;height:7px;border-radius:50%;background:{{ connDot }};box-shadow:0 0 8px {{ connDot }};"></span>{{ connLabel }}</span>
+                </div>
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin:14px 0 10px;">Camera stream</div>
+                <div style="display:flex;gap:8px;">
+                  <input type="text" value="{{ camUrlValue }}" onInput="{{ onCamInput }}" placeholder="http://printer.local/webcam/?action=stream" style="flex:1;height:46px;border-radius:11px;border:1px solid #2f3852;background:#0b1020;color:#eef0f7;font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;"/>
+                  <button style="height:46px;padding:0 20px;border-radius:11px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ applyCam }}">Apply</button>
+                </div>
+              </div>
+              <!-- display -->
+              <div style="background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:14px;padding:16px;flex:1;">
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin-bottom:14px;">Display</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                  <span style="font-family:'Manrope';font-size:14px;color:#d6dbeb;">Brightness</span>
+                  <span style="font-family:'JetBrains Mono';font-size:14px;color:#5fdcff;">{{ brightness }}%</span>
+                </div>
+                <input type="range" min="10" max="100" value="{{ brightness }}" onInput="{{ setBrightness }}" style="width:100%;accent-color:#2bcdf2;height:6px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid #1a2036;">
+                  <span style="font-family:'Manrope';font-size:14px;color:#d6dbeb;">Theme</span>
+                  <span style="display:inline-flex;align-items:center;gap:8px;font-family:'Manrope';font-weight:700;font-size:13px;color:#2bcdf2;padding:6px 12px;border-radius:999px;border:1px solid #0078a0;background:#0b1020;">StoneLabs · cyan</span>
+                </div>
+              </div>
+            </div>
+            <div style="width:300px;flex:none;display:flex;flex-direction:column;gap:14px;">
+              <div style="background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid #232a45;border-radius:14px;padding:16px;">
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7079a0;margin-bottom:12px;">System</div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono';font-size:13px;">
+                  <div style="display:flex;justify-content:space-between;gap:8px;"><span style="color:#7079a0;">host</span><span style="color:#d6dbeb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ sysHost }}</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:8px;"><span style="color:#7079a0;">klipper</span><span style="color:#d6dbeb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ sysKlipper }}</span></div>
+                  <div style="display:flex;justify-content:space-between;"><span style="color:#7079a0;">state</span><span style="color:{{ sysStateColor }};">{{ sysState }}</span></div>
+                  <div style="display:flex;justify-content:space-between;"><span style="color:#7079a0;">ui</span><span style="color:#2bcdf2;">{{ uiVersion }}</span></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px;">
+                  <button style="flex:1;height:42px;border-radius:10px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:'Manrope';font-weight:700;font-size:13px;cursor:pointer;" style-hover="border-color:#0078a0;color:#5fdcff;" onClick="{{ restartKlipper }}">FW Restart</button>
+                  <button style="flex:1;height:42px;border-radius:10px;border:1px solid #5e1f22;background:#1a090b;color:#ff6b6b;font-family:'Manrope';font-weight:700;font-size:13px;cursor:pointer;" style-hover="box-shadow:0 0 0 1px rgba(255,107,107,.4);" onClick="{{ shutdown }}">Shutdown</button>
+                </div>
+              </div>
+              <sc-if value="{{ demoMode }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#0b1020;border:1px dashed #2f3852;border-radius:14px;padding:16px;flex:1;">
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#485273;margin-bottom:6px;">Demo levers</div>
+                <div style="font-family:'Manrope';font-size:12px;color:#7079a0;margin-bottom:14px;">Not connected — these simulate state. Connect to Moonraker for live data.</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                  <span style="font-family:'Manrope';font-size:14px;color:#d6dbeb;">Print state</span>
+                  <button style="{{ printToggle }}" onClick="{{ togglePrinting }}">{{ printToggleLabel }}</button>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font-family:'Manrope';font-size:14px;color:#d6dbeb;">CFS units online</span>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <button style="width:30px;height:30px;border-radius:8px;border:1px solid #232a45;background:#0e1322;color:#a7afcd;cursor:pointer;font-size:16px;" onClick="{{ cfsMinus }}">−</button>
+                    <span style="font-family:'JetBrains Mono';font-size:15px;color:#5fdcff;width:12px;text-align:center;">{{ cfsUnits }}</span>
+                    <button style="width:30px;height:30px;border-radius:8px;border:1px solid #232a45;background:#0e1322;color:#a7afcd;cursor:pointer;font-size:16px;" onClick="{{ cfsPlus }}">+</button>
+                  </div>
+                </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{ online }}" hint-placeholder-val="{{ false }}">
+              <div style="background:linear-gradient(180deg,#0a2a1e,#06160f);border:1px solid rgba(63,207,142,.4);border-radius:14px;padding:16px;flex:1;display:flex;flex-direction:column;gap:8px;">
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#3fcf8e;">Live</div>
+                <div style="font-family:'Caveat',cursive;font-weight:700;font-size:30px;color:#eef0f7;line-height:1;">connected.</div>
+                <div style="font-family:'Manrope';font-size:12px;color:#7079a0;">Streaming printer objects from Moonraker over WebSocket. Controls send real G-code.</div>
+              </div>
+              </sc-if>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- TOAST -->
+          <sc-if value="{{ toastShown }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:11px 18px;border-radius:12px;background:rgba(10,13,26,.92);border:1px solid {{ toastBorder }};box-shadow:0 12px 30px rgba(0,0,0,.6),0 0 0 1px rgba(43,205,242,.25);backdrop-filter:blur(6px);animation:slToast .2s ease;z-index:20;">
+              <span style="width:7px;height:7px;border-radius:50%;background:{{ toastDot }};box-shadow:0 0 8px {{ toastDot }};"></span>
+              <span style="font-family:'JetBrains Mono';font-size:14px;color:#d7f7ff;">{{ toast }}</span>
+            </div>
+          </sc-if>
+
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono';font-size:12px;color:#2f3852;letter-spacing:.06em;">7″ ips · 1024 × 600 · stonelabs printer ui · moonraker live</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1096,&quot;height&quot;:708}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'home',
+    printerTab: 'motion',
+    filamentTab: 'external',
+    homeView: 'status',
+    moveDist: 1,
+    extrudeLen: 10,
+    brightness: 80,
+    camUrl: '',
+    camDraft: '',
+    camErr: false,
+    maintSel: {},
+    clock: '--:--',
+    toast: '',
+    toastKind: 'info',
+    // connection
+    conn: 'connecting',        // 'connecting' | 'online' | 'error'
+    klippy: 'unknown',
+    mkUrl: '',
+    urlDraft: '',
+    tick: 0,
+    // demo fallback
+    demoPrinting: true,
+    demoCfsUnits: 2,
+    demoTemps: { hotend: 0, bed: 0, chamber: 0, fan: 40 },
+  };
+
+  // ---- lifecycle ----
+  componentDidMount() {
+    const tick = () => {
+      const d = new Date();
+      this.setState({ clock: String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') });
+    };
+    tick();
+    this._clk = setInterval(tick, 15000);
+
+    this.snap = {};
+    this.objMap = {};
+    this.info = {};
+    this._rpcId = 0;
+    this._pending = {};
+    this._backoff = 1000;
+
+    let saved = '';
+    try { saved = localStorage.getItem('sl_mk_url') || ''; } catch (e) {}
+    try { const b = localStorage.getItem('sl_brightness'); if (b) this.setState({ brightness: parseInt(b, 10) }); } catch (e) {}
+    let cam = ''; try { cam = localStorage.getItem('sl_cam_url') || ''; } catch (e) {}
+    const camUrl = cam || this.defaultCam();
+    this.setState({ camUrl, camDraft: camUrl });
+    const url = saved || this.defaultUrl();
+    this.setState({ mkUrl: url, urlDraft: url });
+    this.connect(url);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._clk);
+    clearTimeout(this._tt);
+    clearTimeout(this._reconnect);
+    clearTimeout(this._renderT);
+    clearTimeout(this._openT);
+    this._intentionalClose = true;
+    try { if (this._ws) this._ws.close(); } catch (e) {}
+  }
+
+  // ---- connection ----
+  defaultUrl() {
+    const proto = (typeof location !== 'undefined' && location.protocol === 'https:') ? 'wss' : 'ws';
+    let host = 'localhost';
+    try { host = location.hostname || 'localhost'; } catch (e) {}
+    return proto + '://' + host + ':7125/websocket';
+  }
+
+  defaultCam() {
+    let proto = 'http', host = 'localhost';
+    try { proto = location.protocol === 'https:' ? 'https' : 'http'; host = location.hostname || 'localhost'; } catch (e) {}
+    return proto + '://' + host + '/webcam/?action=stream';
+  }
+
+  normalizeUrl(s) {
+    s = (s || '').trim();
+    if (!s) return this.defaultUrl();
+    if (/^wss?:\/\//i.test(s)) return s;
+    const proto = (typeof location !== 'undefined' && location.protocol === 'https:') ? 'wss' : 'ws';
+    let host = s, port = '7125';
+    const m = s.match(/^([^:\/]+)(?::(\d+))?/);
+    if (m) { host = m[1]; if (m[2]) port = m[2]; }
+    return proto + '://' + host + ':' + port + '/websocket';
+  }
+
+  connect(url) {
+    clearTimeout(this._reconnect);
+    try { if (this._ws) { this._intentionalClose = true; this._ws.close(); } } catch (e) {}
+    this._intentionalClose = false;
+    this.setState({ conn: 'connecting' });
+    let ws;
+    try {
+      ws = new WebSocket(url);
+    } catch (e) {
+      this.scheduleReconnect();
+      return;
+    }
+    this._ws = ws;
+    clearTimeout(this._openT);
+    this._openT = setTimeout(() => {
+      if (ws.readyState !== 1) { try { this._intentionalClose = false; ws.close(); } catch (e) {} }
+    }, 5000);
+    ws.onopen = () => { clearTimeout(this._openT); this._backoff = 1000; this.afterOpen(); };
+    ws.onmessage = (ev) => this.onMessage(ev);
+    ws.onerror = () => {};
+    ws.onclose = () => {
+      clearTimeout(this._openT);
+      this._readyOnce = false;
+      if (this._intentionalClose) return;
+      this.setState({ conn: 'error', klippy: 'disconnected' });
+      this.scheduleReconnect();
+    };
+  }
+
+  scheduleReconnect() {
+    clearTimeout(this._reconnect);
+    const wait = Math.min(this._backoff, 8000);
+    this._backoff = Math.min(this._backoff * 1.6, 8000);
+    this._reconnect = setTimeout(() => this.connect(this.state.mkUrl), wait);
+  }
+
+  rpc(method, params) {
+    return new Promise((resolve, reject) => {
+      if (!this._ws || this._ws.readyState !== 1) { reject(new Error('socket not open')); return; }
+      const id = ++this._rpcId;
+      this._pending[id] = { resolve, reject };
+      try {
+        this._ws.send(JSON.stringify({ jsonrpc: '2.0', method, params: params || {}, id }));
+      } catch (e) { delete this._pending[id]; reject(e); return; }
+      setTimeout(() => {
+        if (this._pending[id]) { delete this._pending[id]; reject(new Error('timeout')); }
+      }, 10000);
+    });
+  }
+
+  async afterOpen() {
+    this.rpc('server.connection.identify', {
+      client_name: 'StoneLabs Printer UI', version: '1.0', type: 'display', url: 'https://stonelabs.local',
+    }).catch(() => {});
+    await this.subscribeAll();
+  }
+
+  async subscribeAll() {
+    try {
+      const info = await this.rpc('printer.info');
+      if (info) { this.info = info; this.setState({ klippy: info.state || 'ready' }); }
+    } catch (e) {
+      // klippy not ready yet — wait for notify_klippy_ready
+      this.setState({ conn: 'error' });
+      return;
+    }
+    let list;
+    try {
+      const r = await this.rpc('printer.objects.list');
+      list = (r && r.objects) || [];
+    } catch (e) { this.scheduleReconnect(); return; }
+
+    const has = (x) => list.indexOf(x) !== -1;
+    const sensors = [];
+    const heaters = [];
+    this.objMap = {};
+    list.forEach((o) => {
+      if (o.indexOf('temperature_sensor ') === 0) {
+        const nm = o.slice(19).toLowerCase();
+        if (/cham/.test(nm)) this.objMap.chamber = o;
+        else if (/mcu|tool|board|ebb|can|host|pi|rasp|soc|cb/.test(nm)) { if (!this.objMap.mcu) this.objMap.mcu = o; }
+        sensors.push(o);
+      } else if (o.indexOf('heater_generic ') === 0) {
+        const nm = o.slice(15).toLowerCase();
+        if (/cham/.test(nm)) this.objMap.chamberHeater = o;
+        heaters.push(o);
+      }
+    });
+
+    const sub = {
+      webhooks: ['state', 'state_message'],
+      print_stats: ['state', 'filename', 'print_duration', 'total_duration', 'filament_used', 'info', 'message'],
+      virtual_sdcard: ['progress', 'is_active'],
+      display_status: ['progress', 'message'],
+      gcode_move: ['gcode_position', 'homing_origin', 'speed_factor', 'extrude_factor'],
+      toolhead: ['position', 'homed_axes', 'axis_minimum', 'axis_maximum', 'extruder'],
+      idle_timeout: ['state'],
+    };
+    if (has('pause_resume')) sub.pause_resume = ['is_paused'];
+    if (has('extruder')) sub.extruder = ['temperature', 'target', 'power'];
+    if (has('heater_bed')) sub.heater_bed = ['temperature', 'target', 'power'];
+    if (has('fan')) sub.fan = ['speed'];
+    if (has('save_variables')) sub.save_variables = null;
+    sensors.forEach((s) => { sub[s] = ['temperature']; });
+    heaters.forEach((h) => { sub[h] = ['temperature', 'target']; });
+
+    try {
+      const res = await this.rpc('printer.objects.subscribe', { objects: sub });
+      if (res && res.status) this.mergeStatus(res.status);
+      this._readyOnce = true;
+      this.setState({ conn: 'online' });
+      this.scheduleRender();
+    } catch (e) { this.scheduleReconnect(); }
+  }
+
+  onMessage(ev) {
+    let m;
+    try { m = JSON.parse(ev.data); } catch (e) { return; }
+    if (m.id && this._pending[m.id]) {
+      const p = this._pending[m.id];
+      delete this._pending[m.id];
+      if (m.error) p.reject(new Error(m.error.message || 'rpc error'));
+      else p.resolve(m.result);
+      return;
+    }
+    if (!m.method) return;
+    if (m.method === 'notify_status_update') {
+      if (m.params && m.params[0]) { this.mergeStatus(m.params[0]); this.scheduleRender(); }
+    } else if (m.method === 'notify_gcode_response') {
+      const txt = m.params && m.params[0];
+      if (txt && (txt.indexOf('!!') === 0 || /error/i.test(txt))) this.flash(txt.replace(/^[/!]+\s*/, ''), 'error');
+    } else if (m.method === 'notify_klippy_ready') {
+      this.setState({ klippy: 'ready' });
+      this.subscribeAll();
+    } else if (m.method === 'notify_klippy_disconnected' || m.method === 'notify_klippy_shutdown') {
+      this.setState({ klippy: m.method === 'notify_klippy_shutdown' ? 'shutdown' : 'disconnected', conn: 'error' });
+    }
+  }
+
+  mergeStatus(status) {
+    for (const k in status) {
+      const v = status[k];
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        this.snap[k] = Object.assign({}, this.snap[k] || {}, v);
+      } else {
+        this.snap[k] = v;
+      }
+    }
+    if (this.snap.webhooks && this.snap.webhooks.state) {
+      if (this.snap.webhooks.state !== this.state.klippy) this.setState({ klippy: this.snap.webhooks.state });
+    }
+  }
+
+  scheduleRender() {
+    if (this._renderT) return;
+    this._renderT = setTimeout(() => {
+      this._renderT = null;
+      this.setState({ tick: this.state.tick + 1 });
+    }, 140);
+  }
+
+  online() { return this.state.conn === 'online'; }
+
+  // ---- actions ----
+  flash(msg, kind) {
+    this.setState({ toast: msg, toastKind: kind || 'info' });
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => this.setState({ toast: '' }), 2200);
+  }
+
+  gcode(script, label, kind) {
+    if (this.online()) {
+      this.rpc('printer.gcode.script', { script }).catch((e) => this.flash(String(e.message || e), 'error'));
+    }
+    if (label) this.flash(label, kind);
+  }
+
+  call(method, params, label, kind) {
+    if (this.online()) {
+      this.rpc(method, params || {}).catch((e) => this.flash(String(e.message || e), 'error'));
+    }
+    if (label) this.flash(label, kind);
+  }
+
+  // ---- data view ----
+  g(o) { return this.snap[o] || {}; }
+  num(o, f, d) { const v = this.g(o)[f]; return (v == null || isNaN(v)) ? d : +v; }
+
+  fmtDur(s) {
+    s = Math.max(0, Math.round(s));
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+    if (h > 0) return h + 'h ' + m + 'm';
+    return m + 'm ' + (s % 60) + 's';
+  }
+
+  view() {
+    if (!this.online()) {
+      const S = this.state;
+      const p = S.demoPrinting;
+      return {
+        online: false, printing: p, paused: false,
+        hotendCur: p ? 215 : (S.demoTemps.hotend || 27), hotendTgt: p ? 215 : S.demoTemps.hotend,
+        bedCur: p ? 60 : (S.demoTemps.bed || 24), bedTgt: p ? 60 : S.demoTemps.bed,
+        chamberCur: p ? 38 : 29, chamberTgt: S.demoTemps.chamber, hasChamber: true,
+        mcuCur: 47, fanPct: S.demoTemps.fan,
+        progress: 47, file: 'stonelabs_bracket_v3.gcode', layer: '84 / 180',
+        elapsed: '1h 12m', remaining: '1h 22m', zmm: '16.80 mm',
+        posX: '110.0', posY: '110.0', posZ: '16.80', homed: 'xyz',
+      };
+    }
+    const ps = this.g('print_stats');
+    const state = ps.state || 'standby';
+    const paused = !!this.g('pause_resume').is_paused || state === 'paused';
+    const printing = state === 'printing' || paused;
+    let prog = this.g('virtual_sdcard').progress;
+    if (prog == null) prog = this.g('display_status').progress;
+    const progress = Math.round((prog || 0) * 100);
+    const chO = this.objMap.chamberHeater || this.objMap.chamber;
+    const mcuO = this.objMap.mcu;
+    const th = this.g('toolhead');
+    const pos = th.position || this.g('gcode_move').gcode_position || [0, 0, 0];
+    const dur = this.num('print_stats', 'print_duration', 0);
+    let remaining = null;
+    if (printing && progress > 1) { const total = dur / (progress / 100); remaining = Math.max(0, total - dur); }
+    const info = ps.info || {};
+    const layer = (info.current_layer != null && info.total_layer != null) ? (info.current_layer + ' / ' + info.total_layer) : '—';
+    return {
+      online: true, printing, paused,
+      hotendCur: Math.round(this.num('extruder', 'temperature', 0)),
+      hotendTgt: Math.round(this.num('extruder', 'target', 0)),
+      bedCur: Math.round(this.num('heater_bed', 'temperature', 0)),
+      bedTgt: Math.round(this.num('heater_bed', 'target', 0)),
+      chamberCur: chO ? Math.round(this.num(chO, 'temperature', 0)) : null,
+      chamberTgt: this.objMap.chamberHeater ? Math.round(this.num(this.objMap.chamberHeater, 'target', 0)) : 0,
+      hasChamber: !!this.objMap.chamberHeater,
+      mcuCur: mcuO ? Math.round(this.num(mcuO, 'temperature', 0)) : null,
+      fanPct: Math.round(this.num('fan', 'speed', 0) * 100),
+      progress: isNaN(progress) ? 0 : progress,
+      file: (ps.filename ? String(ps.filename).split('/').pop() : '—'),
+      layer,
+      elapsed: this.fmtDur(dur), remaining: remaining == null ? '—' : this.fmtDur(remaining),
+      zmm: ((pos[2] != null ? pos[2] : 0).toFixed(2)) + ' mm',
+      posX: (pos[0] || 0).toFixed(1), posY: (pos[1] || 0).toFixed(1), posZ: (pos[2] || 0).toFixed(2),
+      homed: th.homed_axes || '',
+    };
+  }
+
+  // ---- CFS data ----
+  ci(v) { const k = parseInt(v, 10); return isNaN(k) ? -1 : k; }
+
+  cfsModel() {
+    if (!this.online()) {
+      const arrs = this.demoUnits();
+      return {
+        count: this.state.demoCfsUnits,
+        ext: { name: 'Matte Black PLA', material: 'PLA', percent: 45, color: '#3a3f4a' },
+        slots: (idx) => (arrs[idx] || []).map((sl, i) => ({
+          num: i + 1, name: sl.empty ? '' : sl.name, material: sl.material,
+          color: sl.empty ? '' : sl.color.replace('#', ''), percent: sl.percent,
+          loaded: !!sl.loaded, empty: !!sl.empty,
+        })),
+      };
+    }
+    const v = (this.g('save_variables').variables) || {};
+    let count = this.ci(v.cfs_units); if (count < 0) count = 0; count = Math.min(4, count);
+    const au = this.ci(v.cfs_active_unit), as = this.ci(v.cfs_active_slot);
+    const read = (u, s) => {
+      const p = 'cfs' + u + '_slot' + s + '_';
+      const name = (v[p + 'name'] != null ? String(v[p + 'name']) : '');
+      let pct = parseInt(v[p + 'remaining'], 10); if (isNaN(pct)) pct = 0;
+      return {
+        num: s, name, material: (v[p + 'material'] != null ? String(v[p + 'material']) : ''),
+        color: (v[p + 'color'] != null ? String(v[p + 'color']).replace('#', '') : ''),
+        percent: Math.max(0, Math.min(100, pct)), empty: name === '',
+        loaded: (u === au && s === as),
+      };
+    };
+    const ext0 = read(0, 1);
+    return {
+      count,
+      ext: { name: ext0.empty ? 'Empty' : ext0.name, material: ext0.material || '—', percent: ext0.percent, color: ext0.color ? '#' + ext0.color : '#3a3f4a' },
+      slots: (idx) => [1, 2, 3, 4].map((s) => read(idx + 1, s)),
+    };
+  }
+
+  demoUnits() {
+    return [
+      [
+        { name: 'StoneLabs Cyan', material: 'PLA', color: '#2bcdf2', percent: 62, loaded: true },
+        { name: 'Carbon Black', material: 'PETG', color: '#15171c', percent: 88 },
+        { name: 'Ember Orange', material: 'PLA', color: '#ff8a4c', percent: 34 },
+        { name: 'Ghost White', material: 'PLA', color: '#e8ecf5', percent: 91 },
+      ],
+      [
+        { name: 'Signal Red', material: 'ABS', color: '#ff6b6b', percent: 50 },
+        { name: 'Toxic Green', material: 'PLA', color: '#3fcf8e', percent: 73 },
+        { name: 'Royal Violet', material: 'PETG', color: '#9b5cff', percent: 18 },
+        { name: 'Empty', material: '—', color: '#1a2036', percent: 0, empty: true },
+      ],
+      [
+        { name: 'Slate Grey', material: 'PLA', color: '#5b6883', percent: 67 },
+        { name: 'Solar Yellow', material: 'PLA', color: '#ffd24d', percent: 80 },
+        { name: 'Deep Teal', material: 'PETG', color: '#0e7c7b', percent: 41 },
+        { name: 'Bone', material: 'PLA', color: '#d8cfb8', percent: 95 },
+      ],
+      [
+        { name: 'Magenta', material: 'PLA', color: '#d6219b', percent: 23 },
+        { name: 'Sky', material: 'PLA', color: '#7cc5ff', percent: 59 },
+        { name: 'Forest', material: 'PETG', color: '#2e7d4f', percent: 72 },
+        { name: 'Empty', material: '—', color: '#1a2036', percent: 0, empty: true },
+      ],
+    ];
+  }
+
+  // ---- style helpers ----
+  seg(active) {
+    return 'flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:100%;border-radius:11px;font-family:\'Manrope\',sans-serif;font-weight:700;font-size:16px;cursor:pointer;transition:all .12s;border:1px solid ' +
+      (active ? '#0078a0' : '#232a45') + ';background:' +
+      (active ? 'linear-gradient(180deg,#0a3a4a,#08293a)' : '#0e1322') + ';color:' +
+      (active ? '#5fdcff' : '#a7afcd') + ';box-shadow:' +
+      (active ? '0 0 0 1px rgba(43,205,242,.3),0 0 12px -3px rgba(0,192,224,.4)' : 'none') + ';';
+  }
+
+  navItem(id) {
+    const a = this.state.screen === id;
+    return 'width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;height:92px;border:none;border-left:3px solid ' +
+      (a ? '#2bcdf2' : 'transparent') + ';background:' +
+      (a ? 'linear-gradient(90deg,rgba(43,205,242,.12),rgba(43,205,242,0))' : 'transparent') + ';color:' +
+      (a ? '#2bcdf2' : '#7079a0') + ';font-family:\'Manrope\',sans-serif;font-weight:700;font-size:12px;letter-spacing:.03em;cursor:pointer;transition:all .15s;';
+  }
+
+  slotCard(sl) {
+    const empty = !!sl.empty;
+    const color = empty ? '#2f3852' : (sl.color ? '#' + sl.color : '#5b6883');
+    return {
+      num: sl.num,
+      name: empty ? 'Empty slot' : (sl.name || 'Slot ' + sl.num),
+      nameColor: empty ? '#485273' : '#eef0f7',
+      material: sl.material || '—',
+      color,
+      percent: sl.percent || 0,
+      loaded: !!sl.loaded,
+      barColor: empty ? '#1a2036' : color,
+      swatchGlow: sl.loaded ? 'box-shadow:inset 0 0 0 6px #0a0d1a,0 0 16px -2px ' + color + ';' : '',
+      cardStyle: 'background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid ' + (sl.loaded ? 'rgba(63,207,142,.45)' : '#232a45') + ';border-radius:14px;padding:15px 16px;display:flex;flex-direction:column;min-height:0;' + (sl.loaded ? 'box-shadow:0 0 0 1px rgba(63,207,142,.2),0 0 22px -8px rgba(63,207,142,.5);' : ''),
+      btnLabel: empty ? '—' : (sl.loaded ? 'Unload' : 'Load'),
+      btnStyle: 'height:36px;padding:0 16px;border-radius:9px;font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:' + (empty ? 'default' : 'pointer') + ';transition:all .12s;border:1px solid ' +
+        (empty ? '#1a2036' : (sl.loaded ? '#2f3852' : '#0078a0')) + ';background:' +
+        (empty ? '#0a0d14' : (sl.loaded ? '#0e1322' : 'linear-gradient(180deg,#0a3a4a,#072836)')) + ';color:' +
+        (empty ? '#2f3852' : (sl.loaded ? '#a7afcd' : '#d7f7ff')) + ';' + (empty ? 'opacity:.5;' : ''),
+    };
+  }
+
+  renderVals() {
+    const S = this.state;
+    const set = (o) => this.setState(o);
+    const P = this.view();
+    const online = P.online;
+
+    // ---- titles ----
+    const titles = {
+      home: { a: 'machine', m: 'Home' },
+      printer: { a: 'motion · temps · extrude', m: 'Printer' },
+      filament: { a: 'spools & cfs', m: 'Filament' },
+      maint: { a: 'calibration & macros', m: 'Maintenance' },
+      settings: { a: 'connection · system', m: 'Settings' },
+    };
+    const t = titles[S.screen] || titles.home;
+
+    // ---- connection pill ----
+    const connMap = {
+      online: { label: 'LIVE', dot: '#3fcf8e', text: '#3fcf8e', bg: 'rgba(63,207,142,.1)', border: 'rgba(63,207,142,.4)', anim: '' },
+      connecting: { label: 'LINKING', dot: '#ffb84d', text: '#ffb84d', bg: 'rgba(255,184,77,.1)', border: 'rgba(255,184,77,.4)', anim: 'animation:slPulse 1.2s ease-in-out infinite;' },
+      error: { label: 'DEMO', dot: '#7079a0', text: '#a7afcd', bg: '#0e1322', border: '#232a45', anim: '' },
+    };
+    const cm = connMap[S.conn] || connMap.error;
+
+    // ---- nav ----
+    const nav = {
+      home: this.navItem('home'), printer: this.navItem('printer'),
+      filament: this.navItem('filament'), maint: this.navItem('maint'), settings: this.navItem('settings'),
+    };
+
+    // ---- printer status pill ----
+    const statusMap = P.printing
+      ? (P.paused
+        ? { label: 'Paused', text: '#ffb84d', dot: '#ffb84d', bg: 'rgba(255,184,77,.1)', border: 'rgba(255,184,77,.4)', anim: '' }
+        : { label: 'Printing', text: '#5fdcff', dot: '#2bcdf2', bg: '#072836', border: '#0078a0', anim: 'animation:slPulse 2s ease-in-out infinite;' })
+      : { label: 'Ready', text: '#3fcf8e', dot: '#3fcf8e', bg: 'rgba(63,207,142,.1)', border: 'rgba(63,207,142,.4)', anim: '' };
+
+    // ---- temps display ----
+    const deg = (v) => (v == null ? '—' : v + '°');
+    const homeTemps = [
+      { label: 'Hotend', value: deg(P.hotendCur), target: P.hotendTgt ? ' / ' + P.hotendTgt + '°' : ' / off', color: '#ff8a4c', iconBg: 'rgba(255,138,76,.12)' },
+      { label: 'MCU (toolhead)', value: deg(P.mcuCur), target: '', color: '#2bcdf2', iconBg: 'rgba(43,205,242,.12)' },
+      { label: 'Chamber', value: deg(P.chamberCur), target: '', color: '#5fdcff', iconBg: 'rgba(95,220,255,.12)' },
+    ];
+
+    const quickStatus = [
+      { label: 'Klippy', value: online ? (S.klippy || 'ready') : 'demo', color: (online && (S.klippy === 'ready')) ? '#3fcf8e' : (online ? '#ffb84d' : '#7079a0') },
+      { label: 'Homed', value: P.homed ? P.homed.toUpperCase() : 'no', color: (P.homed && P.homed.length >= 3) ? '#3fcf8e' : '#ffb84d' },
+      { label: 'Part fan', value: P.fanPct + '%', color: '#2bcdf2' },
+      { label: 'Bed', value: deg(P.bedCur) + (P.bedTgt ? ' / ' + P.bedTgt + '°' : ''), color: '#5fdcff' },
+    ];
+
+    const job = { file: P.file, percent: P.progress, layer: P.layer, elapsed: P.elapsed, remaining: P.remaining, z: P.zmm };
+
+    // ---- printer sub tabs ----
+    const ptabs = [['motion', 'Motion'], ['temps', 'Temperature'], ['extrude', 'Extrude']];
+    const printerTabs = ptabs.map(([id, label]) => ({ label, style: this.seg(S.printerTab === id), on: () => set({ printerTab: id }) }));
+
+    const jogBtn = 'height:100%;border-radius:12px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:all .12s;';
+    const homeAxBtn = 'height:50px;border-radius:11px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:\'Manrope\';font-weight:700;font-size:17px;cursor:pointer;transition:all .12s;';
+    const heatBtn = 'height:46px;border-radius:11px;border:1px solid #2f3852;background:#0e1322;color:#d6dbeb;font-family:\'Manrope\';font-weight:700;font-size:14px;cursor:pointer;transition:all .12s;';
+
+    const dists = [0.1, 1, 10];
+    const distOpts = dists.map((d) => ({ label: String(d), style: this.seg(S.moveDist === d), on: () => set({ moveDist: d }) }));
+
+    const jog = (axis, sign) => {
+      const d = (S.moveDist * sign);
+      const feed = axis === 'Z' ? 900 : 6000;
+      this.gcode('G91\nG1 ' + axis + d + ' F' + feed + '\nG90', 'move ' + axis + (sign > 0 ? '+' : '') + d + 'mm');
+    };
+
+    const homedCol = (ax) => (P.homed && P.homed.indexOf(ax) !== -1) ? '#d6dbeb' : '#ffb84d';
+    const pos = { x: P.posX, y: P.posY, z: P.posZ, xc: homedCol('x'), yc: homedCol('y'), zc: homedCol('z') };
+
+    // ---- temp cards ----
+    const setHotend = (v) => { this.gcode('M104 S' + v, 'hotend → ' + (v ? v + '°' : 'off')); if (!online) set({ demoTemps: Object.assign({}, S.demoTemps, { hotend: v }) }); };
+    const setBed = (v) => { this.gcode('M140 S' + v, 'bed → ' + (v ? v + '°' : 'off')); if (!online) set({ demoTemps: Object.assign({}, S.demoTemps, { bed: v }) }); };
+    const setChamber = (v) => {
+      if (online && !P.hasChamber) { this.flash('no chamber heater configured', 'error'); return; }
+      if (this.objMap.chamberHeater) this.gcode('SET_HEATER_TEMPERATURE HEATER=' + this.objMap.chamberHeater.slice(15) + ' TARGET=' + v, 'chamber → ' + (v ? v + '°' : 'off'));
+      else this.flash('chamber → ' + (v ? v + '°' : 'off'));
+      if (!online) set({ demoTemps: Object.assign({}, S.demoTemps, { chamber: v }) });
+    };
+    const setFan = (p) => { this.gcode(p === 0 ? 'M107' : 'M106 S' + Math.round(p / 100 * 255), 'fan → ' + p + '%'); if (!online) set({ demoTemps: Object.assign({}, S.demoTemps, { fan: p }) }); };
+
+    const presetRow = (cur, opts, fn) => opts.map(([label, val]) => ({ label, style: this.seg(cur === val), on: () => fn(val) }));
+    const tgtTxt = (v) => v ? ' → ' + v + '°' : '';
+    const tempCards = [
+      { label: 'Hotend', color: '#ff8a4c', current: P.hotendCur == null ? '—' : P.hotendCur, unit: '°C', tgt: tgtTxt(P.hotendTgt), presets: presetRow(P.hotendTgt, [['Off', 0], ['PLA 200', 200], ['PETG 240', 240]], setHotend) },
+      { label: 'Bed', color: '#5fdcff', current: P.bedCur == null ? '—' : P.bedCur, unit: '°C', tgt: tgtTxt(P.bedTgt), presets: presetRow(P.bedTgt, [['Off', 0], ['60°', 60], ['90°', 90]], setBed) },
+      { label: 'Chamber', color: '#2bcdf2', current: P.chamberCur == null ? '—' : P.chamberCur, unit: '°C', tgt: tgtTxt(P.chamberTgt), presets: presetRow(P.chamberTgt, [['Off', 0], ['40°', 40], ['60°', 60]], setChamber) },
+      { label: 'Part fan', color: '#a7afcd', current: P.fanPct, unit: '%', tgt: '', presets: presetRow(P.fanPct, [['0%', 0], ['50%', 50], ['100%', 100]], setFan) },
+    ];
+
+    // ---- extrude ----
+    const elens = [1, 5, 10, 50];
+    const extrudeOpts = elens.map((l) => ({ label: String(l), style: this.seg(S.extrudeLen === l), on: () => set({ extrudeLen: l }) }));
+    const hot = (P.hotendCur != null && P.hotendCur >= 170);
+    const extruder = hot
+      ? { guardLabel: 'ready · ' + P.hotendCur + '°', guardBorder: 'rgba(63,207,142,.4)', guardBg: 'rgba(63,207,142,.1)', guardDot: '#3fcf8e', guardText: '#3fcf8e' }
+      : { guardLabel: 'cold · heat first', guardBorder: 'rgba(255,184,77,.4)', guardBg: 'rgba(255,184,77,.1)', guardDot: '#ffb84d', guardText: '#ffb84d' };
+    const doExtrudeFn = (sign) => {
+      if (online && !hot) { this.flash('hotend cold — heat to 170°+ first', 'error'); return; }
+      this.gcode('M83\nG1 E' + (sign * S.extrudeLen) + ' F300', (sign > 0 ? 'extrude ' : 'retract ') + S.extrudeLen + 'mm');
+    };
+
+    // ---- filament tabs ----
+    const cfs = this.cfsModel();
+    const tabs = [{ id: 'external', label: 'External', dot: '#2bcdf2' }];
+    for (let i = 0; i < cfs.count; i++) tabs.push({ id: 'cfs' + i, label: 'CFS ' + (i + 1), dot: '#5fdcff' });
+    const effTab = tabs.find((x) => x.id === S.filamentTab) ? S.filamentTab : 'external';
+    const filTabs = tabs.map((x) => ({ label: x.label, dot: x.dot, style: this.seg(effTab === x.id), on: () => set({ filamentTab: x.id }) }));
+    const isExternalTab = effTab === 'external';
+    const isCfsTab = !isExternalTab;
+    const ext = Object.assign({}, cfs.ext, { glow: 'rgba(120,130,150,.5)' });
+
+    let cfsSlots = [];
+    if (isCfsTab) {
+      const idx = parseInt(effTab.replace('cfs', ''), 10) || 0;
+      cfsSlots = cfs.slots(idx).map((sl) => {
+        const card = this.slotCard(sl);
+        const empty = sl.empty;
+        const unit = idx + 1, slot = sl.num;
+        card.on = empty ? (() => {}) : (() => {
+          if (sl.loaded) this.gcode('CFS_UNLOAD', 'unloading ' + (sl.name || 'slot ' + slot));
+          else this.gcode('CFS_LOAD UNIT=' + unit + ' SLOT=' + slot, 'loading ' + (sl.name || 'slot ' + slot) + ' · u' + unit + 's' + slot);
+        });
+        return card;
+      });
+    }
+
+    // ---- macros ----
+    const ic = {
+      level: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M6 14V9M12 14V6M18 14v-3"/><circle cx="6" cy="6.5" r="1.4"/><circle cx="12" cy="4" r="1.4"/><circle cx="18" cy="9" r="1.4"/></svg>',
+      shaper: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2-7 4 14 3-9 2 5 2-3h4"/></svg>',
+      cut: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 8 20 18M8.5 16 20 6"/></svg>',
+      zoffset: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v14"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>',
+      pid: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0Z"/><path d="M12 9v6"/></svg>',
+      clean: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21s1-3 4-3 4 2 6 2 4-2 4-2"/><path d="M14 3 6 11l3 3 8-8z"/><path d="m12 5 3 3"/></svg>',
+    };
+    // Order matters: "Run selected" runs these top-to-bottom, so a full run
+    // builds on itself — stable temp, clean tip, then anything that touches the
+    // bed (prtouch is a nozzle-contact probe), then temp-independent tests last.
+    const maintDefs = [
+      { id: 'pid', title: 'PID tune', sub: 'hotend control', icon: ic.pid, script: 'PID_CALIBRATE HEATER=extruder TARGET=200' },
+      { id: 'clean', title: 'Clean nozzle', sub: 'wipe while hot', icon: ic.clean, script: 'CLEAN_NOZZLE' },
+      { id: 'z', title: 'Z calibrate', sub: 'nozzle-to-bed ref', icon: ic.zoffset, script: 'PROBE_CALIBRATE' },
+      { id: 'level', title: 'Auto bed level', sub: 'home + full mesh', icon: ic.level, script: 'G28\nBED_MESH_CALIBRATE' },
+      { id: 'shaper', title: 'Input shaper', sub: 'X/Y resonance', icon: ic.shaper, script: 'SHAPER_CALIBRATE' },
+      { id: 'cut', title: 'Filament cut', sub: 'cutter calibration', icon: ic.cut, script: 'FILAMENT_CUT_CALIBRATION' },
+    ];
+    const sel = S.maintSel || {};
+    const macros = maintDefs.map((d) => {
+      const on = !!sel[d.id];
+      return {
+        title: d.title, sub: d.sub, icon: { __html: d.icon }, selected: on,
+        iconColor: on ? '#5fdcff' : '#2bcdf2',
+        checkStroke: on ? '#05060d' : 'transparent',
+        cardStyle: 'background:linear-gradient(180deg,#111526,#0a0d1a);border:1px solid ' + (on ? '#2bcdf2' : '#232a45') + ';border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;text-align:left;' + (on ? 'box-shadow:inset 0 0 0 1px #2bcdf2,0 0 20px -6px rgba(0,192,224,.6);' : ''),
+        checkStyle: 'width:24px;height:24px;flex:none;border-radius:7px;display:flex;align-items:center;justify-content:center;background:' + (on ? '#2bcdf2' : 'transparent') + ';border:1px solid ' + (on ? '#2bcdf2' : '#2f3852') + ';',
+        on: () => this.setState((st) => {
+          const m = Object.assign({}, st.maintSel);
+          if (m[d.id]) delete m[d.id]; else m[d.id] = true;
+          return { maintSel: m };
+        }),
+      };
+    });
+    const selDefs = maintDefs.filter((d) => sel[d.id]);
+    const nSel = selDefs.length;
+    const maintSelLabel = nSel ? (nSel + ' routine' + (nSel > 1 ? 's' : '') + ' selected — runs in order') : 'tap routines to select';
+    const maintSelColor = nSel ? '#d6dbeb' : '#485273';
+    const runLabel = nSel ? ('Run selected · ' + nSel) : 'Run selected';
+    const runBtnStyle = 'height:44px;padding:0 22px;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:9px;font-family:\'Manrope\';font-weight:700;font-size:15px;border:1px solid ' +
+      (nSel ? '#2bcdf2' : '#232a45') + ';background:' + (nSel ? 'linear-gradient(180deg,#0a3a4a,#072836)' : '#0b1020') + ';color:' + (nSel ? '#d7f7ff' : '#485273') + ';cursor:' + (nSel ? 'pointer' : 'default') + ';' + (nSel ? 'box-shadow:0 0 16px -5px rgba(0,192,224,.5);' : '');
+    const clearBtnStyle = 'height:44px;padding:0 18px;border-radius:11px;font-family:\'Manrope\';font-weight:700;font-size:14px;cursor:pointer;border:1px solid #2f3852;background:#0e1322;color:' + (nSel ? '#a7afcd' : '#485273') + ';';
+    const runSelected = () => {
+      if (!nSel) { this.flash('select at least one routine first'); return; }
+      const script = selDefs.map((d) => d.script).join('\n');
+      this.gcode(script, 'running ' + nSel + ' routine' + (nSel > 1 ? 's' : '') + '…');
+    };
+    const clearSel = () => set({ maintSel: {} });
+
+    // ---- settings / system ----
+    const sysHost = (this.info && this.info.hostname) ? this.info.hostname : (online ? '—' : 'stonelabs.local');
+    const sysKlipper = (this.info && this.info.software_version) ? this.info.software_version : (online ? '—' : 'demo');
+    const sysState = online ? (S.klippy || 'ready') : 'demo';
+    const sysStateColor = sysState === 'ready' ? '#3fcf8e' : (sysState === 'shutdown' || sysState === 'error' || sysState === 'disconnected') ? '#ff6b6b' : '#ffb84d';
+
+    const printToggle = 'height:34px;padding:0 16px;border-radius:9px;font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:pointer;border:1px solid ' +
+      (S.demoPrinting ? '#0078a0' : '#2f3852') + ';background:' + (S.demoPrinting ? '#072836' : '#0e1322') + ';color:' + (S.demoPrinting ? '#5fdcff' : '#a7afcd') + ';';
+
+    const toastDot = S.toastKind === 'error' ? '#ff6b6b' : '#2bcdf2';
+    const toastBorder = S.toastKind === 'error' ? '#5e1f22' : '#0078a0';
+
+    // ---- home camera ----
+    const segSm = (active) => 'height:32px;padding:0 18px;border-radius:9px;font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:pointer;border:1px solid ' +
+      (active ? '#0078a0' : 'transparent') + ';background:' + (active ? 'linear-gradient(180deg,#0a3a4a,#08293a)' : 'transparent') + ';color:' + (active ? '#5fdcff' : '#7079a0') + ';';
+    const homeCamera = S.homeView === 'camera';
+    const homeStatus = !homeCamera;
+    const camOk = homeCamera && !!S.camUrl && !S.camErr;
+    const camErr = homeCamera && !camOk;
+    const cameraImg = camOk ? React.createElement('img', {
+      src: S.camUrl, alt: 'camera',
+      onError: () => { if (!this.state.camErr) this.setState({ camErr: true }); },
+      style: { width: '100%', height: '100%', objectFit: 'contain', background: '#05060d' },
+    }) : null;
+
+    return {
+      // header
+      titleAccent: t.a, titleMain: t.m, clock: S.clock,
+      hdrHotend: (P.hotendCur == null ? '—' : P.hotendCur + '°'), hdrChamber: (P.chamberCur == null ? '—' : P.chamberCur + '°'),
+      connLabel: cm.label, connDot: cm.dot, connText: cm.text, connBg: cm.bg, connBorder: cm.border, connAnim: cm.anim,
+      connDetail: S.mkUrl,
+      statusLabel: statusMap.label, statusText: statusMap.text, statusDot: statusMap.dot, statusBg: statusMap.bg, statusBorder: statusMap.border, statusAnim: statusMap.anim,
+      // nav + screens
+      nav,
+      isHome: S.screen === 'home', isPrinter: S.screen === 'printer', isFilament: S.screen === 'filament', isMaint: S.screen === 'maint', isSettings: S.screen === 'settings',
+      goHome: () => set({ screen: 'home' }), goPrinter: () => set({ screen: 'printer' }), goFilament: () => set({ screen: 'filament' }),
+      goMaint: () => set({ screen: 'maint' }), goSettings: () => set({ screen: 'settings' }), goFilamentBtn: () => set({ screen: 'filament' }),
+      estop: () => this.call('printer.emergency_stop', {}, '!! EMERGENCY STOP', 'error'),
+      // home
+      printing: P.printing, idle: !P.printing, printEyebrow: P.paused ? 'Paused' : 'Now printing', idleEyebrow: online ? 'Idle · machine ready' : 'Demo · not connected',
+      homeTemps, quickStatus, job,
+      homeStatus, homeCamera,
+      homeStatusBtn: segSm(homeStatus), homeCamBtn: segSm(homeCamera),
+      showStatus: () => set({ homeView: 'status' }), showCamera: () => set({ homeView: 'camera', camErr: false }),
+      camOk, camErr, cameraImg, camBed: deg(P.bedCur),
+      pauseLabel: P.paused ? 'Resume' : 'Pause',
+      pause: () => { if (P.paused) this.call('printer.print.resume', {}, 'resuming'); else this.call('printer.print.pause', {}, 'print paused'); },
+      stopPrint: () => { this.call('printer.print.cancel', {}, 'print cancelled'); if (!online) set({ demoPrinting: false }); },
+      preheat: () => this.gcode('M104 S200\nM140 S60', 'preheating · PLA'),
+      // printer
+      printerTabs, isMotion: S.printerTab === 'motion', isTemps: S.printerTab === 'temps', isExtrude: S.printerTab === 'extrude',
+      jogBtn, homeAxBtn, heatBtn, distOpts,
+      jogYup: () => jog('Y', 1), jogYdown: () => jog('Y', -1), jogXplus: () => jog('X', 1), jogXminus: () => jog('X', -1),
+      jogZup: () => jog('Z', 1), jogZdown: () => jog('Z', -1),
+      homeXY: () => this.gcode('G28 X Y', 'homing X Y'), homeX: () => this.gcode('G28 X', 'homing X'),
+      homeY: () => this.gcode('G28 Y', 'homing Y'), homeZ: () => this.gcode('G28 Z', 'homing Z'), homeAll: () => this.gcode('G28', 'homing all axes'),
+      pos, tempCards, extrudeOpts, extruder,
+      doExtrude: () => doExtrudeFn(1), doRetract: () => doExtrudeFn(-1),
+      heatPLA: () => setHotend(200), heatPETG: () => setHotend(240), heatOff: () => setHotend(0),
+      // filament
+      filTabs, cfsUnits: cfs.count, cfsDemo: !online, cfsModeLabel: online ? 'cfs · detected' : 'demo · cfs',
+      cfsMinus: () => { if (!online) set({ demoCfsUnits: Math.max(0, S.demoCfsUnits - 1) }); },
+      cfsPlus: () => { if (!online) set({ demoCfsUnits: Math.min(4, S.demoCfsUnits + 1) }); },
+      isExternalTab, isCfsTab, ext, cfsSlots,
+      loadExt: () => this.gcode('CFS_LOAD_EXTERNAL', 'loading external spool'),
+      unloadExt: () => this.gcode('CFS_UNLOAD_EXTERNAL', 'unloading external spool'),
+      // maint
+      macros, maintSelLabel, maintSelColor, runLabel, runBtnStyle, clearBtnStyle, runSelected, clearSel,
+      // settings
+      brightness: S.brightness, online, demoMode: !online,
+      urlValue: S.urlDraft, onUrlInput: (e) => set({ urlDraft: e.target.value }),
+      camUrlValue: S.camDraft, onCamInput: (e) => set({ camDraft: e.target.value }),
+      applyCam: () => { const u = (S.camDraft || '').trim(); try { localStorage.setItem('sl_cam_url', u); } catch (er) {} set({ camUrl: u, camErr: false }); this.flash('camera updated'); },
+      doConnect: () => {
+        const u = this.normalizeUrl(S.urlDraft);
+        try { localStorage.setItem('sl_mk_url', u); } catch (e) {}
+        set({ mkUrl: u, urlDraft: u });
+        this._backoff = 1000;
+        this.flash('connecting to ' + u);
+        this.connect(u);
+      },
+      sysHost, sysKlipper, sysState, sysStateColor, uiVersion: 'StoneLabs UI v1.0.0',
+      restartKlipper: () => this.call('printer.firmware_restart', {}, 'firmware restart…'),
+      shutdown: () => this.call('machine.shutdown', {}, 'shutting down…'),
+      setBrightness: (e) => { const b = parseInt(e.target.value, 10); set({ brightness: b }); try { localStorage.setItem('sl_brightness', String(b)); } catch (er) {} },
+      printToggle, printToggleLabel: S.demoPrinting ? 'Printing' : 'Idle', togglePrinting: () => set({ demoPrinting: !S.demoPrinting }),
+      // toast
+      toast: S.toast, toastShown: !!S.toast, toastDot, toastBorder,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# StoneLabs Printer UI: kiosk defaults
+# Edit this file to point the kiosk at a different URL, then:  sudo systemctl restart stonelabs-ui
+
+# Where the browser loads the UI from. Pick ONE:
+#  - Served by Moonraker static_files (same-origin, no CORS, recommended):
+KIOSK_URL=http://localhost:7125/server/files/stonelabs/index.html
+#  - Or a plain static server you run on the host:
+# KIOSK_URL=http://localhost:8080/
+#  - Or a remote host:
+# KIOSK_URL=http://192.168.1.50:7125/server/files/stonelabs/index.html
