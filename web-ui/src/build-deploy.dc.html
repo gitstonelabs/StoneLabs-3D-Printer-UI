@@ -668,6 +668,7 @@ class Component extends DCLogic {
     clearTimeout(this._renderT);
     clearTimeout(this._openT);
     this._intentionalClose = true;
+    this.stopCam();
     try { if (this._ws) this._ws.close(); } catch (e) {}
   }
 
@@ -683,6 +684,51 @@ class Component extends DCLogic {
     let proto = 'http', host = 'localhost';
     try { proto = location.protocol === 'https:' ? 'https' : 'http'; host = location.hostname || 'localhost'; } catch (e) {}
     return proto + '://' + host + '/webcam/?action=stream';
+  }
+
+  // ---- WebRTC camera (e.g. Creality cam_app/webrtc at http://<printer-ip>:8000) ----
+  // When the camera URL is a WebRTC base (no "action=stream"), connect with a plain
+  // RTCPeerConnection and the host's /call/webrtc_local offer/answer signaling. The
+  // iceServers list is empty on purpose: on a LAN (and an air-gapped printer) host
+  // candidates connect with no STUN, and faster.
+  startCam(url) {
+    this.stopCam();
+    url = (url || this.state.camUrl || '').trim();
+    if (!url || /action=stream/i.test(url)) return;   // MJPEG mode: the <img> handles it
+    let pc;
+    try { pc = new RTCPeerConnection({ iceServers: [] }); }
+    catch (e) { this.setState({ camErr: true }); return; }
+    this._pc = pc;
+    const base = url.replace(/\/+$/, '');
+    pc.ontrack = (e) => {
+      this._cstream = e.streams && e.streams[0];
+      if (this._cv && this._cstream) { try { this._cv.srcObject = this._cstream; } catch (er) {} }
+      if (this.state.camErr) this.setState({ camErr: false });
+    };
+    pc.oniceconnectionstatechange = () => {
+      const st = pc.iceConnectionState;
+      if ((st === 'failed' || st === 'disconnected' || st === 'closed') && !this.state.camErr) this.setState({ camErr: true });
+    };
+    pc.onicecandidate = (ev) => {
+      if (ev.candidate !== null) return;   // wait for full (non-trickle) ICE, like the host's own client
+      fetch(base + '/call/webrtc_local', {
+        method: 'POST', headers: { 'Content-Type': 'plain/text' },
+        body: btoa(JSON.stringify({ type: 'offer', sdp: pc.localDescription.sdp })),
+      }).then((r) => r.text())
+        .then((txt) => { const res = JSON.parse(atob(txt)); if (res.type === 'answer') pc.setRemoteDescription(new RTCSessionDescription(res)); })
+        .catch(() => { if (!this.state.camErr) this.setState({ camErr: true }); });
+    };
+    try { pc.addTransceiver('video', { direction: 'sendrecv' }); } catch (e) {}
+    pc.createOffer().then((d) => pc.setLocalDescription(d)).catch(() => this.setState({ camErr: true }));
+  }
+  stopCam() {
+    try { if (this._pc) this._pc.close(); } catch (e) {}
+    this._pc = null; this._cstream = null;
+    if (this._cv) { try { this._cv.srcObject = null; } catch (e) {} }
+  }
+  _camVideo(el) {
+    this._cv = el || null;
+    if (el && this._cstream) { try { el.srcObject = this._cstream; } catch (e) {} }
   }
 
   normalizeUrl(s) {
@@ -1256,11 +1302,18 @@ class Component extends DCLogic {
     const homeStatus = !homeCamera;
     const camOk = homeCamera && !!S.camUrl && !S.camErr;
     const camErr = homeCamera && !camOk;
-    const cameraImg = camOk ? React.createElement('img', {
-      src: S.camUrl, alt: 'camera',
-      onError: () => { if (!this.state.camErr) this.setState({ camErr: true }); },
-      style: { width: '100%', height: '100%', objectFit: 'contain', background: 'var(--bg)' },
-    }) : null;
+    const isWebrtc = !!S.camUrl && !/action=stream/i.test(S.camUrl);
+    this._camVideoRef = this._camVideoRef || ((el) => this._camVideo(el));   // stable ref: no remount per render
+    const cameraImg = !camOk ? null : (isWebrtc
+      ? React.createElement('video', {
+          ref: this._camVideoRef, autoPlay: true, muted: true, playsInline: true,
+          style: { width: '100%', height: '100%', objectFit: 'contain', background: 'var(--bg)' },
+        })
+      : React.createElement('img', {
+          src: S.camUrl, alt: 'camera',
+          onError: () => { if (!this.state.camErr) this.setState({ camErr: true }); },
+          style: { width: '100%', height: '100%', objectFit: 'contain', background: 'var(--bg)' },
+        }));
 
     return {
       // header
@@ -1280,7 +1333,7 @@ class Component extends DCLogic {
       homeTemps, quickStatus, job,
       homeStatus, homeCamera,
       homeStatusBtn: segSm(homeStatus), homeCamBtn: segSm(homeCamera),
-      showStatus: () => set({ homeView: 'status' }), showCamera: () => set({ homeView: 'camera', camErr: false }),
+      showStatus: () => { this.stopCam(); set({ homeView: 'status' }); }, showCamera: () => { set({ homeView: 'camera', camErr: false }); this.startCam(); },
       camOk, camErr, cameraImg, camBed: deg(P.bedCur),
       pauseLabel: P.paused ? 'Resume' : 'Pause',
       pause: () => { if (P.paused) this.call('printer.print.resume', {}, 'resuming'); else this.call('printer.print.pause', {}, 'print paused'); },
@@ -1313,7 +1366,7 @@ class Component extends DCLogic {
       setLight: () => { set({ modeId: 'light' }); try { localStorage.setItem('sl_mode', 'light'); } catch (e) {} },
       urlValue: S.urlDraft, onUrlInput: (e) => set({ urlDraft: e.target.value }),
       camUrlValue: S.camDraft, onCamInput: (e) => set({ camDraft: e.target.value }),
-      applyCam: () => { const u = (S.camDraft || '').trim(); try { localStorage.setItem('sl_cam_url', u); } catch (er) {} set({ camUrl: u, camErr: false }); this.flash('camera updated'); },
+      applyCam: () => { const u = (S.camDraft || '').trim(); try { localStorage.setItem('sl_cam_url', u); } catch (er) {} set({ camUrl: u, camErr: false }); this.flash('camera updated'); if (S.homeView === 'camera') this.startCam(u); },
       doConnect: () => {
         const u = this.normalizeUrl(S.urlDraft);
         try { localStorage.setItem('sl_mk_url', u); } catch (e) {}
