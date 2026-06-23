@@ -155,13 +155,13 @@ adjust. They're all in one `renderVals()` block near the bottom of the
 
 ✅ **`stonelabs-printer-ui.html` is 100% offline.** Everything is embedded in the
 one file: **React + ReactDOM**, the DC runtime, all fonts (Manrope, JetBrains
-Mono, Caveat, Indie Flower), and the logo. No external URL is fetched at runtime:
-the embedded React loads before the runtime's old unpkg fallback, so that fetch
-never fires (the unpkg URL string is still present in the file as dead code).
+Mono, Caveat, Indie Flower), and the logo. There are **zero** external URLs in the
+output; the runtime's old unpkg fetch is dead code, skipped because the embedded
+React loads first.
 
 The only network traffic is the **LAN WebSocket to your printer's Moonraker**
 (`ws://<host>:7125/websocket`) and your **LAN camera stream**. No internet is ever
-contacted: not at first paint, not at setup, never. You can air-gap the machine
+contacted, not at first paint, not at setup, never. You can air-gap the machine
 (LAN only) and it works.
 
 Verify if you like: load it with the internet unplugged (LAN up) → it paints and
@@ -171,6 +171,6 @@ connects; DevTools → Network shows only your printer + local data URIs.
 
 ## Why this instead of KlipperScreen
 KlipperScreen is a GTK app with hardcoded panel layouts; theming can only go so
-far. This is your approved prototype running for real. Same modern UI, driven by
+far. This is a truly customizable modern UI, driven by
 live Moonraker data, deployable as a browser kiosk. Mainsail/Fluidd can keep
 running alongside it (multiple Moonraker clients are fine).

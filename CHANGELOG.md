@@ -3,6 +3,27 @@
 All notable changes to **StoneLabs 3D Printer UI** are documented here.
 This project follows [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`).
 
+## [1.1.0] - 2026-06-23
+
+### Added
+- **Color themes.** Six palettes (Cyan, Crimson, Amber + Navy, Mono, Greyscale,
+  Sage), each with a **light and dark** mode. Pick them in Settings → Display;
+  the choice persists across reloads. All UI colors are now CSS variables, so
+  themes swap instantly with no reload.
+- **WebRTC camera.** The Home camera now plays the printer's native WebRTC
+  stream (for example Creality's `cam_app` on port 8000), not just MJPEG. Set the
+  camera's WebRTC base URL in Settings → Camera; a URL ending in `action=stream`
+  still uses the MJPEG path.
+
+### Changed
+- **Maintenance run order** resequenced so a full batch run builds on itself
+  (PID → clean → Z-cal → mesh → shaper → cut).
+
+### Fixed
+- Macro wrappers (`CLEAN_NOZZLE`, `PROBE_CALIBRATE`) added in `cfs_macros.cfg`
+  so those buttons no longer throw "Unknown command"; external spool load/unload
+  and filament-cut macros fleshed out as editable templates.
+
 ## [1.0.0] - 2026-06-23
 
 First public release. A standalone, touch-first web UI that replaces
