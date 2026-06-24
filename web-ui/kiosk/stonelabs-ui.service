@@ -21,7 +21,7 @@ EnvironmentFile=-/etc/default/stonelabs-ui
 ExecStart=/usr/bin/startx /usr/bin/env bash -lc '\
   unclutter -idle 0 & \
   exec chromium --kiosk --noerrdialogs --disable-infobars --incognito \
-    --disable-translate --disable-features=TranslateUI \
+    --disable-translate --disable-features=TranslateUI,WebRtcHideLocalIpsWithMdns \
     --disable-session-crashed-bubble --disable-pinch --overscroll-history-navigation=0 \
     --check-for-update-interval=31536000 \
     --window-size=1024,600 --window-position=0,0 \

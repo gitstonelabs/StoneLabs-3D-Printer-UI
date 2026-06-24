@@ -44,14 +44,15 @@ body{margin:0;background:var(--bg);}
 [data-theme="grey"][data-mode="light"]{--bg:#f1f2f4;--bg2:#e7e8ea;--inset:#e2e3e5;--track:#e6e7e9;--control:#e6e7e9;--surface:#ffffff;--b0:#dddee0;--b1:#d2d3d6;--b2:#c5c6c9;--b3:#afb0b3;--tx:#15171b;--tx2:#343639;--tx3:#696a6d;--txd:#909295;--txf:#afb0b3;--accent:#9aa3b2;--accent2:#c3cad6;--accentdim:#5b6473;--ad1:#9aa3b2;--ad2:#888f9d;--ad1h:#a6aebb;--ad2h:#9aa3b2;--accentfg:#ffffff;--success:#3fcf8e;--danger:#ff6b6b;--ember:#ff8a4c;--warning:#ffb84d;--danger-b:#5e1f22;--danger-d1:#2a0f12;--danger-d2:#1a090b;--ok-d1:#0a2a1e;--ok-d2:#06160f;--accent-rgb:154,163,178;--bg-rgb:241,242,244;--bg2-rgb:231,232,234;--success-rgb:63,207,142;--danger-rgb:255,107,107;--ember-rgb:255,138,76;--warning-rgb:255,184,77;}
 [data-theme="sage"][data-mode="dark"]{--bg:#0a0d0a;--bg2:#141714;--inset:#1a1d1a;--track:#151915;--control:#212421;--surface:#282b28;--b0:#1f221f;--b1:#2a2d2a;--b2:#383b38;--b3:#4e524e;--tx:#eef3ee;--tx2:#ced3ce;--tx3:#979c97;--txd:#6e726e;--txf:#4e524e;--accent:#8ab48a;--accent2:#b6d6b6;--accentdim:#4e7a52;--ad1:#364636;--ad2:#202920;--ad1h:#445844;--ad2h:#2a372a;--accentfg:#e5efe5;--success:#3fcf8e;--danger:#ff6b6b;--ember:#ff8a4c;--warning:#ffb84d;--danger-b:#5e1f22;--danger-d1:#2a0f12;--danger-d2:#1a090b;--ok-d1:#0a2a1e;--ok-d2:#06160f;--accent-rgb:138,180,138;--bg-rgb:10,13,10;--bg2-rgb:20,23,20;--success-rgb:63,207,142;--danger-rgb:255,107,107;--ember-rgb:255,138,76;--warning-rgb:255,184,77;}
 [data-theme="sage"][data-mode="light"]{--bg:#eef2ec;--bg2:#e4e8e2;--inset:#dfe3dd;--track:#e3e7e1;--control:#e3e7e1;--surface:#ffffff;--b0:#dadfd8;--b1:#cfd4ce;--b2:#c2c7c1;--b3:#acb1ab;--tx:#131a13;--tx2:#323831;--tx3:#666c65;--txd:#8e938d;--txf:#acb1ab;--accent:#8ab48a;--accent2:#b6d6b6;--accentdim:#4e7a52;--ad1:#8ab48a;--ad2:#799e79;--ad1h:#98bd98;--ad2h:#8ab48a;--accentfg:#ffffff;--success:#3fcf8e;--danger:#ff6b6b;--ember:#ff8a4c;--warning:#ffb84d;--danger-b:#5e1f22;--danger-d1:#2a0f12;--danger-d2:#1a090b;--ok-d1:#0a2a1e;--ok-d2:#06160f;--accent-rgb:138,180,138;--bg-rgb:238,242,236;--bg2-rgb:228,232,226;--success-rgb:63,207,142;--danger-rgb:255,107,107;--ember-rgb:255,138,76;--warning-rgb:255,184,77;}
+[data-mode="dark"]{--seg-on:var(--accent2);--accent-ink:var(--accent2);}
+[data-mode="light"]{--seg-on:var(--accentfg);}
+[data-mode="light"]{--accent2:var(--accentdim)!important;--accent-ink:var(--accentdim);}
 body{background:var(--bg);}
 </style>
 </helmet>
 
-<div style="width:100vw;height:100vh;background:var(--bg);font-family:'Manrope',system-ui,sans-serif;">
-<div style="width:100%;height:100%;">
-  <div style="width:100%;height:100%;">
-    <div data-theme="{{ themeId }}" data-mode="{{ modeId }}" style="position:relative;width:100vw;height:100vh;overflow:hidden;background:var(--bg);display:flex;">
+<div id="kioskFit" style="position:fixed;inset:0;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Manrope',system-ui,sans-serif;">
+    <div data-theme="{{ themeId }}" data-mode="{{ modeId }}" id="kioskScreen" style="position:relative;width:1024px;height:600px;overflow:hidden;background:var(--bg);display:flex;transform-origin:center center;">
 
       <!-- ===== LEFT NAV RAIL ===== -->
       <nav style="width:140px;flex:none;height:100%;background:var(--bg2);border-right:1px solid var(--b1);display:flex;flex-direction:column;">
@@ -102,10 +103,12 @@ body{background:var(--bg);}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ember)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0Z"/></svg>
               <span style="font-family:'JetBrains Mono';font-size:13px;font-weight:500;color:var(--tx2);">{{ hdrHotend }}</span>
             </div>
+            <sc-if value="{{ showChamber }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--b2);background:var(--control);">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
               <span style="font-family:'JetBrains Mono';font-size:13px;font-weight:500;color:var(--tx2);">{{ hdrChamber }}</span>
             </div>
+            </sc-if>
             <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;border:1px solid {{ connBorder }};background:{{ connBg }};" title="{{ connDetail }}">
               <span style="width:8px;height:8px;border-radius:50%;background:{{ connDot }};{{ connAnim }}"></span>
               <span style="font-family:'Manrope';font-weight:800;font-size:11px;color:{{ connText }};letter-spacing:.1em;">{{ connLabel }}</span>
@@ -131,7 +134,9 @@ body{background:var(--bg);}
             <div style="flex:none;display:flex;align-items:center;justify-content:flex-end;">
               <div style="display:flex;gap:6px;padding:4px;background:var(--inset);border:1px solid var(--b1);border-radius:12px;">
                 <button style="{{ homeStatusBtn }}" onClick="{{ showStatus }}">Status</button>
+                <sc-if value="{{ camNotDisabled }}" hint-placeholder-val="{{ true }}">
                 <button style="{{ homeCamBtn }}" onClick="{{ showCamera }}">Camera</button>
+                </sc-if>
               </div>
             </div>
 
@@ -198,7 +203,7 @@ body{background:var(--bg);}
               <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;">
                 <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
                   <sc-for list="{{ homeTemps }}" as="t" hint-placeholder-count="3">
-                    <div style="flex:1;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:12px;padding:0 16px;">
+                    <div onClick="{{ t.on }}" style="flex:1;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:12px;padding:0 16px;cursor:{{ t.cursor }};" style-hover="border-color:{{ t.hoverBorder }};">
                       <span style="width:38px;height:38px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;background:{{ t.iconBg }};">
                         <span style="width:10px;height:10px;border-radius:50%;background:{{ t.color }};box-shadow:0 0 10px {{ t.color }};"></span>
                       </span>
@@ -236,7 +241,7 @@ body{background:var(--bg);}
               </div>
               <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-width:0;">
                 <sc-for list="{{ homeTemps }}" as="t" hint-placeholder-count="3">
-                  <div style="flex:1;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:12px;padding:0 16px;">
+                  <div onClick="{{ t.on }}" style="flex:1;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:12px;padding:0 16px;cursor:{{ t.cursor }};" style-hover="border-color:{{ t.hoverBorder }};">
                     <span style="width:38px;height:38px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;background:{{ t.iconBg }};">
                       <span style="width:10px;height:10px;border-radius:50%;background:{{ t.color }};box-shadow:0 0 10px {{ t.color }};"></span>
                     </span>
@@ -255,7 +260,7 @@ body{background:var(--bg);}
             <!-- quick status strip -->
             <div style="flex:none;display:flex;gap:10px;">
               <sc-for list="{{ quickStatus }}" as="q" hint-placeholder-count="4">
-                <div style="flex:1;display:flex;align-items:center;gap:10px;height:54px;background:var(--inset);border:1px solid var(--b1);border-radius:12px;padding:0 14px;">
+                <div onClick="{{ q.on }}" style="flex:1;display:flex;align-items:center;gap:10px;height:54px;background:var(--inset);border:1px solid var(--b1);border-radius:12px;padding:0 14px;cursor:{{ q.cursor }};" style-hover="border-color:{{ q.hoverBorder }};">
                   <span style="width:9px;height:9px;border-radius:50%;background:{{ q.color }};box-shadow:0 0 8px {{ q.color }};flex:none;"></span>
                   <div style="min-width:0;">
                     <div style="font-family:'Manrope';font-size:11px;color:var(--txd);line-height:1.1;">{{ q.label }}</div>
@@ -329,22 +334,72 @@ body{background:var(--bg);}
             <!-- TEMPS -->
             <sc-if value="{{ isTemps }}" hint-placeholder-val="{{ true }}">
             <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0;">
-              <sc-for list="{{ tempCards }}" as="c" hint-placeholder-count="4">
-                <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;">
-                    <div style="display:flex;align-items:center;gap:9px;">
-                      <span style="width:9px;height:9px;border-radius:50%;background:{{ c.color }};box-shadow:0 0 10px {{ c.color }};"></span>
-                      <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:var(--tx2);">{{ c.label }}</span>
-                    </div>
-                    <span style="font-family:'JetBrains Mono';font-size:22px;font-weight:500;color:var(--tx);">{{ c.current }}<span style="font-size:13px;color:var(--txf);"> {{ c.unit }}</span><span style="font-size:13px;color:var(--accent2);">{{ c.tgt }}</span></span>
+
+              <!-- hotend -->
+              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember);"></span>
+                    <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:var(--tx2);">Hotend</span>
                   </div>
-                  <div style="display:flex;gap:8px;margin-top:auto;height:44px;">
-                    <sc-for list="{{ c.presets }}" as="p" hint-placeholder-count="3">
-                      <button style="{{ p.style }}" onClick="{{ p.on }}">{{ p.label }}</button>
-                    </sc-for>
-                  </div>
+                  <button style="{{ readoutBtn }}" style-hover="border-color:var(--accentdim);" onClick="{{ editHotend }}"><span style="font-family:'JetBrains Mono';font-size:22px;font-weight:500;color:var(--tx);">{{ tHotendCur }}<span style="font-size:13px;color:var(--txf);"> °C</span><span style="font-size:13px;color:var(--accent2);">{{ tHotendTgt }}</span></span></button>
                 </div>
-              </sc-for>
+                <div style="margin-top:auto;">
+                  <button style="{{ matDropBtn }}" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ openHotendMat }}">
+                    <span>{{ hotendMatLabel }}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- bed -->
+              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--accent2);box-shadow:0 0 10px var(--accent2);"></span>
+                    <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:var(--tx2);">Bed</span>
+                  </div>
+                  <button style="{{ readoutBtn }}" style-hover="border-color:var(--accentdim);" onClick="{{ editBed }}"><span style="font-family:'JetBrains Mono';font-size:22px;font-weight:500;color:var(--tx);">{{ tBedCur }}<span style="font-size:13px;color:var(--txf);"> °C</span><span style="font-size:13px;color:var(--accent2);">{{ tBedTgt }}</span></span></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:14px;margin-top:auto;height:44px;">
+                  <button style="{{ offBtn }}" style-hover="border-color:var(--danger-b);color:var(--danger);" onClick="{{ bedOff }}">Off</button>
+                  <span style="font-family:'Manrope';font-size:12px;color:var(--txf);">tap the reading to type a target · 0–100°</span>
+                </div>
+              </div>
+
+              <!-- chamber -->
+              <sc-if value="{{ showChamber }}" hint-placeholder-val="{{ true }}">
+              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);"></span>
+                    <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:var(--tx2);">Chamber</span>
+                  </div>
+                  <button style="{{ readoutBtn }}" style-hover="border-color:var(--accentdim);" onClick="{{ editChamber }}"><span style="font-family:'JetBrains Mono';font-size:22px;font-weight:500;color:var(--tx);">{{ tChamberCur }}<span style="font-size:13px;color:var(--txf);"> °C</span><span style="font-size:13px;color:var(--accent2);">{{ tChamberTgt }}</span></span></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:14px;margin-top:auto;height:44px;">
+                  <button style="{{ offBtn }}" style-hover="border-color:var(--danger-b);color:var(--danger);" onClick="{{ chamberOff }}">Off</button>
+                  <span style="font-family:'Manrope';font-size:12px;color:var(--txf);">tap the reading to type a target · 0–70°</span>
+                </div>
+              </div>
+              </sc-if>
+
+              <!-- part fan -->
+              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;min-height:0;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--tx3);box-shadow:0 0 10px var(--tx3);"></span>
+                    <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:var(--tx2);">Part fan</span>
+                  </div>
+                  <span style="font-family:'JetBrains Mono';font-size:22px;font-weight:500;color:var(--tx);">{{ fanPct }}<span style="font-size:13px;color:var(--txf);"> %</span></span>
+                </div>
+                <div style="display:flex;align-items:center;gap:14px;margin-top:auto;height:44px;">
+                  <button style="{{ offBtnSm }}" style-hover="border-color:var(--danger-b);color:var(--danger);" onClick="{{ fanOff }}">Off</button>
+                  <input type="range" min="0" max="100" step="25" value="{{ fanPct }}" onInput="{{ setFanSlider }}" style="flex:1;accent-color:var(--accent);height:6px;"/>
+                  <span style="font-family:'JetBrains Mono';font-size:15px;color:var(--accent2);width:44px;text-align:right;">{{ fanPct }}%</span>
+                </div>
+              </div>
+
             </div>
             </sc-if>
 
@@ -376,13 +431,13 @@ body{background:var(--bg);}
               </div>
               <div style="width:240px;flex:none;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:16px;padding:18px;display:flex;flex-direction:column;">
                 <span style="font-family:'Manrope';font-weight:700;font-size:15px;color:var(--tx2);">Hotend</span>
-                <span style="font-family:'JetBrains Mono';font-size:30px;font-weight:500;color:var(--tx);margin-top:8px;">{{ hdrHotend }}</span>
-                <div style="font-family:'Manrope';font-size:12px;color:var(--txd);margin-top:14px;margin-bottom:8px;">quick heat</div>
-                <div style="display:flex;flex-direction:column;gap:8px;">
-                  <button style="{{ heatBtn }}" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ heatPLA }}">PLA · 200°</button>
-                  <button style="{{ heatBtn }}" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ heatPETG }}">PETG · 240°</button>
-                  <button style="{{ heatBtn }}" style-hover="border-color:var(--danger-b);color:var(--danger);" onClick="{{ heatOff }}">Cooldown</button>
-                </div>
+                <button style="{{ readoutBtnLg }}" style-hover="border-color:var(--accentdim);" onClick="{{ editHotend }}"><span style="font-family:'JetBrains Mono';font-size:30px;font-weight:500;color:var(--tx);">{{ tHotendCur }}<span style="font-size:14px;color:var(--txf);">°C</span><span style="font-size:15px;color:var(--accent2);">{{ tHotendTgt }}</span></span></button>
+                <div style="font-family:'Manrope';font-size:12px;color:var(--txd);margin-top:14px;margin-bottom:8px;">material preset</div>
+                <button style="{{ matDropBtn }}" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ openHotendMat }}">
+                  <span>{{ hotendMatLabel }}</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div style="font-family:'Manrope';font-size:12px;color:var(--txf);margin-top:12px;">tap the reading to type 0–300°</div>
               </div>
             </div>
             </sc-if>
@@ -463,10 +518,15 @@ body{background:var(--bg);}
           <!-- ========== MAINTENANCE ========== -->
           <sc-if value="{{ isMaint }}" hint-placeholder-val="{{ true }}">
           <div style="height:100%;padding:16px 22px;display:flex;flex-direction:column;gap:12px;">
-            <div style="flex:none;display:flex;align-items:baseline;justify-content:space-between;">
+            <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+              <div style="display:flex;gap:8px;height:42px;width:280px;">
+                <sc-for list="{{ maintTabs }}" as="mt" hint-placeholder-count="2">
+                  <button style="{{ mt.style }}" onClick="{{ mt.on }}">{{ mt.label }}</button>
+                </sc-for>
+              </div>
               <span style="font-family:'Caveat',cursive;font-weight:700;font-size:24px;color:var(--txd);line-height:1;">keep her dialed in.</span>
-              <span style="font-family:'Manrope';font-size:12px;color:var(--txf);letter-spacing:.02em;">tap to select · run together</span>
             </div>
+            <sc-if value="{{ maintIsRoutines }}" hint-placeholder-val="{{ true }}">
             <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px;min-height:0;">
               <sc-for list="{{ macros }}" as="m" hint-placeholder-count="6">
                 <button style="{{ m.cardStyle }}" style-hover="border-color:var(--accentdim);box-shadow:0 0 18px -6px rgba(var(--accent-rgb),.5);" onClick="{{ m.on }}">
@@ -490,41 +550,94 @@ body{background:var(--bg);}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 14 9-14 9V3Z"/></svg>{{ runLabel }}
               </button>
             </div>
+            </sc-if>
+
+            <sc-if value="{{ maintIsConsole }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:16px;overflow:hidden;">
+              <div ref="{{ conRef }}" onScroll="{{ conOnScroll }}" style="flex:1;min-height:0;overflow-y:auto;padding:14px 16px;font-family:'JetBrains Mono';font-size:13px;line-height:1.55;">
+                <sc-if value="{{ consoleEmpty }}" hint-placeholder-val="{{ true }}">
+                  <div style="color:var(--txf);">console is empty, send a command below. printer responses stream in here.</div>
+                </sc-if>
+                <sc-for list="{{ consoleLines }}" as="l" hint-placeholder-count="0">
+                  <div style="color:{{ l.color }};white-space:pre-wrap;word-break:break-word;">{{ l.disp }}</div>
+                </sc-for>
+              </div>
+              <div style="flex:none;display:flex;gap:10px;padding:12px 14px;border-top:1px solid var(--b1);background:var(--inset);">
+                <input type="text" value="{{ gcodeValue }}" readOnly="{{ true }}" onClick="{{ editGcode }}" placeholder="type G-code · e.g. G28 · ↑↓ history" style="flex:1;height:46px;border-radius:11px;border:1px solid var(--b3);background:var(--control);color:var(--tx);font-family:'JetBrains Mono';font-size:14px;padding:0 14px;outline:none;cursor:pointer;"/>
+                <button onClick="{{ sendGcodeNow }}" style="height:46px;padding:0 22px;border-radius:11px;border:1px solid var(--accent);background:linear-gradient(180deg,var(--ad1),var(--ad2));color:var(--accentfg);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Send
+                </button>
+                <button onClick="{{ clearConsole }}" style="height:46px;padding:0 18px;border-radius:11px;border:1px solid var(--b3);background:var(--control);color:var(--tx3);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;">Clear</button>
+              </div>
+            </div>
+            </sc-if>
           </div>
           </sc-if>
 
           <!-- ========== SETTINGS ========== -->
           <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ true }}">
           <div style="height:100%;padding:18px 22px;display:flex;gap:16px;">
-            <div style="flex:1;display:flex;flex-direction:column;gap:14px;min-width:0;">
-              <!-- connection -->
-              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:16px;">
-                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin-bottom:12px;">Moonraker connection</div>
-                <div style="display:flex;gap:8px;margin-bottom:12px;">
-                  <input type="text" value="{{ urlValue }}" onInput="{{ onUrlInput }}" placeholder="ws://printer.local:7125/websocket" style="flex:1;height:46px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx);font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;"/>
-                  <button style="height:46px;padding:0 20px;border-radius:11px;border:1px solid var(--accent);background:linear-gradient(180deg,var(--ad1),var(--ad2));color:var(--accentfg);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;" style-hover="background:linear-gradient(180deg,var(--ad1h),var(--ad2h));" onClick="{{ doConnect }}">Connect</button>
+            <div style="flex:1;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:0;">
+              <!-- connection + camera (blended) -->
+              <div style="flex:1;min-height:0;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:16px;">
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin-bottom:10px;">Moonraker connection</div>
+                <div style="display:flex;gap:8px;margin-bottom:10px;">
+                  <input type="text" value="{{ urlValue }}" readOnly="{{ true }}" onClick="{{ editUrl }}" placeholder="ws://printer.local:7125/websocket" style="flex:1;height:44px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx);font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;cursor:pointer;"/>
+                  <button style="height:44px;padding:0 20px;border-radius:11px;border:1px solid var(--accent);background:linear-gradient(180deg,var(--ad1),var(--ad2));color:var(--accentfg);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;" style-hover="background:linear-gradient(180deg,var(--ad1h),var(--ad2h));" onClick="{{ doConnect }}">Connect</button>
                 </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--inset);border:1px solid var(--b1);border-radius:10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--inset);border:1px solid var(--b1);border-radius:10px;">
                   <div style="min-width:0;">
                     <div style="font-family:'Manrope';font-weight:700;font-size:14px;color:var(--tx2);">Klippy · {{ sysState }}</div>
                     <div style="font-family:'JetBrains Mono';font-size:12px;color:var(--txd);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ connDetail }}</div>
                   </div>
                   <span style="display:inline-flex;align-items:center;gap:6px;flex:none;font-family:'Manrope';font-weight:800;font-size:12px;letter-spacing:.08em;color:{{ connText }};"><span style="width:7px;height:7px;border-radius:50%;background:{{ connDot }};box-shadow:0 0 8px {{ connDot }};"></span>{{ connLabel }}</span>
                 </div>
-                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin:14px 0 10px;">Camera stream</div>
-                <div style="display:flex;gap:8px;">
-                  <input type="text" value="{{ camUrlValue }}" onInput="{{ onCamInput }}" placeholder="http://printer.local/webcam/?action=stream" style="flex:1;height:46px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx);font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;"/>
-                  <button style="height:46px;padding:0 20px;border-radius:11px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ applyCam }}">Apply</button>
+                <div style="height:1px;background:var(--b1);margin:16px 0;"></div>
+                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin-bottom:10px;">Camera</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
+                  <span style="font-family:'Manrope';font-size:14px;color:var(--tx2);">Mode</span>
+                  <button style="display:flex;align-items:center;justify-content:space-between;gap:10px;height:42px;padding:0 14px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;min-width:154px;" style-hover="border-color:var(--accentdim);" onClick="{{ openCamMode }}">
+                    <span>{{ camModeLabel }}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
                 </div>
+                <sc-if value="{{ camNotDisabled }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;gap:8px;margin-bottom:10px;">
+                  <input type="text" value="{{ camUrlValue }}" readOnly="{{ true }}" onClick="{{ editCamUrl }}" placeholder="http://printer.local:8000" style="flex:1;height:44px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx);font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;cursor:pointer;"/>
+                  <button style="height:44px;padding:0 20px;border-radius:11px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:'Manrope';font-weight:700;font-size:14px;cursor:pointer;" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ applyCam }}">Apply</button>
+                </div>
+                </sc-if>
+                <sc-if value="{{ camIsWebrtc }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'Manrope';font-size:12px;color:var(--txd);margin-bottom:6px;">Signaling path · advanced</div>
+                <input type="text" value="{{ sigValue }}" readOnly="{{ true }}" onClick="{{ editSig }}" placeholder="/call/webrtc_local" style="width:100%;height:42px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx3);font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;cursor:pointer;margin-bottom:12px;"/>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                  <span style="font-family:'Manrope';font-size:14px;color:var(--tx2);">Use STUN / ICE servers</span>
+                  <button style="{{ stunSwitch }}" onClick="{{ toggleStun }}"><span style="{{ stunKnob }}"></span></button>
+                </div>
+                <sc-if value="{{ useStun }}" hint-placeholder-val="{{ false }}">
+                <input type="text" value="{{ stunValue }}" readOnly="{{ true }}" onClick="{{ editStun }}" placeholder="stun:stun.l.google.com:19302" style="width:100%;height:42px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx3);font-family:'JetBrains Mono';font-size:13px;padding:0 12px;outline:none;cursor:pointer;margin-top:10px;"/>
+                </sc-if>
+                </sc-if>
               </div>
-              <!-- display -->
-              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:16px;flex:1;">
+            </div>
+            <div style="width:320px;flex:none;display:flex;flex-direction:column;gap:14px;min-height:0;">
+              <!-- display / theme -->
+              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:16px;flex:none;">
                 <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin-bottom:14px;">Display</div>
+                <!-- brightness control suppressed (kiosk backlight fixed at 100%); markup kept for future use
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
                   <span style="font-family:'Manrope';font-size:14px;color:var(--tx2);">Brightness</span>
                   <span style="font-family:'JetBrains Mono';font-size:14px;color:var(--accent2);">{{ brightness }}%</span>
                 </div>
                 <input type="range" min="10" max="100" value="{{ brightness }}" onInput="{{ setBrightness }}" style="width:100%;accent-color:var(--accent);height:6px;">
+                -->
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                  <div style="min-width:0;">
+                    <div style="font-family:'Manrope';font-size:14px;color:var(--tx2);">Disable chamber</div>
+                    <div style="font-family:'Manrope';font-size:12px;color:var(--txd);margin-top:1px;">hide chamber controls everywhere</div>
+                  </div>
+                  <button style="{{ chamberSwitch }}" onClick="{{ toggleChamber }}"><span style="{{ chamberKnob }}"></span></button>
+                </div>
                 <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--b1);">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
                     <span style="font-family:'Manrope';font-size:14px;color:var(--tx2);">Theme</span>
@@ -542,9 +655,7 @@ body{background:var(--bg);}
                   </div>
                 </div>
               </div>
-            </div>
-            <div style="width:300px;flex:none;display:flex;flex-direction:column;gap:14px;">
-              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:16px;">
+              <div style="background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;padding:16px;flex:1;min-height:0;overflow-y:auto;">
                 <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin-bottom:12px;">System</div>
                 <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono';font-size:13px;">
                   <div style="display:flex;justify-content:space-between;gap:8px;"><span style="color:var(--txd);">host</span><span style="color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ sysHost }}</span></div>
@@ -552,36 +663,77 @@ body{background:var(--bg);}
                   <div style="display:flex;justify-content:space-between;"><span style="color:var(--txd);">state</span><span style="color:{{ sysStateColor }};">{{ sysState }}</span></div>
                   <div style="display:flex;justify-content:space-between;"><span style="color:var(--txd);">ui</span><span style="color:var(--accent);">{{ uiVersion }}</span></div>
                 </div>
-                <div style="display:flex;gap:8px;margin-top:14px;">
+                <button style="width:100%;height:42px;border-radius:10px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:'Manrope';font-weight:700;font-size:13px;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ restartTouch }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+                  TouchScreen Restart
+                </button>
+                <div style="display:flex;gap:8px;margin-top:8px;">
                   <button style="flex:1;height:42px;border-radius:10px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:'Manrope';font-weight:700;font-size:13px;cursor:pointer;" style-hover="border-color:var(--accentdim);color:var(--accent2);" onClick="{{ restartKlipper }}">FW Restart</button>
                   <button style="flex:1;height:42px;border-radius:10px;border:1px solid var(--danger-b);background:var(--danger-d2);color:var(--danger);font-family:'Manrope';font-weight:700;font-size:13px;cursor:pointer;" style-hover="box-shadow:0 0 0 1px rgba(var(--danger-rgb),.4);" onClick="{{ shutdown }}">Shutdown</button>
                 </div>
               </div>
-              <sc-if value="{{ demoMode }}" hint-placeholder-val="{{ true }}">
-              <div style="background:var(--inset);border:1px dashed var(--b3);border-radius:14px;padding:16px;flex:1;">
-                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txf);margin-bottom:6px;">Demo levers</div>
-                <div style="font-family:'Manrope';font-size:12px;color:var(--txd);margin-bottom:14px;">Not connected — these simulate state. Connect to Moonraker for live data.</div>
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                  <span style="font-family:'Manrope';font-size:14px;color:var(--tx2);">Print state</span>
-                  <button style="{{ printToggle }}" onClick="{{ togglePrinting }}">{{ printToggleLabel }}</button>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;">
-                  <span style="font-family:'Manrope';font-size:14px;color:var(--tx2);">CFS units online</span>
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <button style="width:30px;height:30px;border-radius:8px;border:1px solid var(--b2);background:var(--control);color:var(--tx3);cursor:pointer;font-size:16px;" onClick="{{ cfsMinus }}">−</button>
-                    <span style="font-family:'JetBrains Mono';font-size:15px;color:var(--accent2);width:12px;text-align:center;">{{ cfsUnits }}</span>
-                    <button style="width:30px;height:30px;border-radius:8px;border:1px solid var(--b2);background:var(--control);color:var(--tx3);cursor:pointer;font-size:16px;" onClick="{{ cfsPlus }}">+</button>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- ON-SCREEN KEYBOARD -->
+          <sc-if value="{{ kbText }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(var(--bg-rgb),.55);backdrop-filter:blur(2px);" onClick="{{ kbCancel }}">
+            <div style="background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--b2);box-shadow:0 -14px 44px rgba(0,0,0,.6);padding:12px 14px 14px;" onClick="{{ stop }}">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <span style="font-family:'Manrope';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--txd);flex:none;width:120px;">{{ kbTitle }}</span>
+                <input ref="{{ kbInputRef }}" type="text" value="{{ kbDisplay }}" onChange="{{ kbOnChange }}" onKeyDown="{{ kbOnKeyDown }}" spellCheck="{{ false }}" autoCapitalize="off" autoComplete="off" style="flex:1;height:42px;border-radius:9px;border:1px solid var(--accentdim);background:var(--inset);padding:0 12px;font-family:'JetBrains Mono';font-size:15px;color:var(--tx);outline:none;caret-color:var(--accent);"/>
+                <button style="height:42px;padding:0 16px;border-radius:9px;border:1px solid var(--b3);background:var(--control);color:var(--tx3);font-family:'Manrope';font-weight:700;font-size:13px;cursor:pointer;flex:none;" onClick="{{ kbCancel }}">Close</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px;max-width:900px;margin:0 auto;">
+                <sc-for list="{{ kbRows }}" as="krow" hint-placeholder-count="4">
+                  <div style="display:flex;gap:7px;">
+                    <sc-for list="{{ krow }}" as="k" hint-placeholder-count="10">
+                      <button style="{{ k.style }}" onClick="{{ k.on }}">{{ k.label }}</button>
+                    </sc-for>
                   </div>
-                </div>
+                </sc-for>
               </div>
-              </sc-if>
-              <sc-if value="{{ online }}" hint-placeholder-val="{{ false }}">
-              <div style="background:linear-gradient(180deg,var(--ok-d1),var(--ok-d2));border:1px solid rgba(var(--success-rgb),.4);border-radius:14px;padding:16px;flex:1;display:flex;flex-direction:column;gap:8px;">
-                <div style="font-family:'Manrope';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--success);">Live</div>
-                <div style="font-family:'Caveat',cursive;font-weight:700;font-size:30px;color:var(--tx);line-height:1;">connected.</div>
-                <div style="font-family:'Manrope';font-size:12px;color:var(--txd);">Streaming printer objects from Moonraker over WebSocket. Controls send real G-code.</div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- NUMERIC KEYPAD -->
+          <sc-if value="{{ kbNum }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(var(--bg-rgb),.6);backdrop-filter:blur(2px);" onClick="{{ kbCancel }}">
+            <div style="width:320px;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:18px;" onClick="{{ stop }}">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <span style="font-family:'Manrope';font-weight:700;font-size:14px;color:var(--tx2);">{{ kbTitle }}</span>
+                <button style="width:34px;height:34px;border-radius:9px;border:1px solid var(--b3);background:var(--control);color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;" onClick="{{ kbCancel }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
               </div>
-              </sc-if>
+              <div style="height:64px;border-radius:12px;border:1px solid var(--accentdim);background:var(--inset);display:flex;align-items:baseline;justify-content:flex-end;gap:6px;padding:0 16px;margin-bottom:6px;">
+                <span style="font-family:'JetBrains Mono';font-size:40px;font-weight:500;color:var(--tx);line-height:64px;">{{ kbDisplay }}</span>
+                <span style="font-family:'JetBrains Mono';font-size:16px;color:var(--txf);">°C</span>
+              </div>
+              <div style="font-family:'Manrope';font-size:12px;color:{{ kbRangeColor }};margin-bottom:12px;text-align:right;">range {{ kbRange }}</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                <sc-for list="{{ padKeys }}" as="k" hint-placeholder-count="12">
+                  <button style="{{ k.style }}" onClick="{{ k.on }}">{{ k.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- DROPDOWN -->
+          <sc-if value="{{ ddOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(var(--bg-rgb),.6);backdrop-filter:blur(2px);" onClick="{{ ddCancel }}">
+            <div style="width:280px;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--b2);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:8px;" onClick="{{ stop }}">
+              <sc-for list="{{ ddOptions }}" as="o" hint-placeholder-count="4">
+                <button style="{{ o.style }}" style-hover="background:rgba(var(--accent-rgb),.1);" onClick="{{ o.on }}">
+                  <span>{{ o.label }}</span>
+                  <sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg>
+                  </sc-if>
+                </button>
+              </sc-for>
             </div>
           </div>
           </sc-if>
@@ -597,9 +749,6 @@ body{background:var(--bg);}
         </main>
       </div>
     </div>
-  </div>
-
-</div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1096,&quot;height&quot;:708}}">
@@ -611,7 +760,7 @@ class Component extends DCLogic {
     homeView: 'status',
     moveDist: 1,
     extrudeLen: 10,
-    brightness: 80,
+    brightness: 100,
     camUrl: '',
     camDraft: '',
     camErr: false,
@@ -630,7 +779,21 @@ class Component extends DCLogic {
     // demo fallback
     demoPrinting: true,
     demoCfsUnits: 2,
-    demoTemps: { hotend: 0, bed: 0, chamber: 0, fan: 40 },
+    demoTemps: { hotend: 0, bed: 0, chamber: 0, fan: 50 },
+    // camera config (persisted)
+    camMode: 'mjpeg',                       // 'webrtc' | 'mjpeg' | 'disabled'
+    signalingPath: '/call/webrtc_local',
+    useStun: false,
+    stunUrl: 'stun:stun.l.google.com:19302',
+    sigDraft: '/call/webrtc_local',
+    stunDraft: 'stun:stun.l.google.com:19302',
+    chamberDisabled: false,
+    // on-screen keyboard / numeric keypad / dropdown overlays
+    kb: null,
+    dd: null,
+    // maintenance console
+    maintTab: 'routines',
+    console: [],
   };
 
   // ---- lifecycle ----
@@ -648,14 +811,31 @@ class Component extends DCLogic {
     this._rpcId = 0;
     this._pending = {};
     this._backoff = 1000;
+    this._conId = 0;
+    this._onKey = (e) => this.handleKey(e);
+    try { window.addEventListener('keydown', this._onKey); } catch (e) {}
+    this._hist = [];
+    this._histIdx = -1;
+    this._conStick = true;
+    this._onResize = () => this.fitKiosk();
+    try { window.addEventListener('resize', this._onResize); } catch (e) {}
+    this.fitKiosk();
+    requestAnimationFrame(() => this.fitKiosk());
 
     let saved = '';
     try { saved = localStorage.getItem('sl_mk_url') || ''; } catch (e) {}
-    try { const b = localStorage.getItem('sl_brightness'); if (b) this.setState({ brightness: parseInt(b, 10) }); } catch (e) {}
+    // brightness control suppressed; kiosk backlight fixed at 100%; localStorage read disabled
+    // try { const b = localStorage.getItem('sl_brightness'); if (b) this.setState({ brightness: parseInt(b, 10) }); } catch (e) {}
     try { const th = localStorage.getItem('sl_theme'); const md = localStorage.getItem('sl_mode'); const o = {}; if (th) o.themeId = th; if (md) o.modeId = md; if (th || md) this.setState(o); } catch (e) {}
     let cam = ''; try { cam = localStorage.getItem('sl_cam_url') || ''; } catch (e) {}
     const camUrl = cam || this.defaultCam();
-    this.setState({ camUrl, camDraft: camUrl });
+    let camMode = ''; try { camMode = localStorage.getItem('sl_cam_mode') || ''; } catch (e) {}
+    if (!camMode) camMode = /action=stream/i.test(camUrl) ? 'mjpeg' : 'webrtc';
+    let sig = '/call/webrtc_local'; try { sig = localStorage.getItem('sl_cam_signaling') || sig; } catch (e) {}
+    let useStun = false; try { useStun = localStorage.getItem('sl_cam_stun') === '1'; } catch (e) {}
+    let stunUrl = 'stun:stun.l.google.com:19302'; try { stunUrl = localStorage.getItem('sl_cam_stun_url') || stunUrl; } catch (e) {}
+    let chamberDisabled = false; try { chamberDisabled = localStorage.getItem('sl_chamber_disabled') === '1'; } catch (e) {}
+    this.setState({ camUrl, camDraft: camUrl, camMode, signalingPath: sig, sigDraft: sig, useStun, stunUrl, stunDraft: stunUrl, chamberDisabled });
     const url = saved || this.defaultUrl();
     this.setState({ mkUrl: url, urlDraft: url });
     this.connect(url);
@@ -663,10 +843,12 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     clearInterval(this._clk);
+    try { window.removeEventListener('resize', this._onResize); } catch (e) {}
     clearTimeout(this._tt);
     clearTimeout(this._reconnect);
     clearTimeout(this._renderT);
     clearTimeout(this._openT);
+    try { window.removeEventListener('keydown', this._onKey); } catch (e) {}
     this._intentionalClose = true;
     this.stopCam();
     try { if (this._ws) this._ws.close(); } catch (e) {}
@@ -693,10 +875,13 @@ class Component extends DCLogic {
   // candidates connect with no STUN, and faster.
   startCam(url) {
     this.stopCam();
+    const mode = this.state.camMode || 'webrtc';
     url = (url || this.state.camUrl || '').trim();
-    if (!url || /action=stream/i.test(url)) return;   // MJPEG mode: the <img> handles it
+    if (mode === 'disabled' || mode === 'mjpeg') return;   // disabled: nothing; MJPEG: the <img> handles it
+    if (!url) return;
+    const ice = (this.state.useStun && this.state.stunUrl) ? [{ urls: this.state.stunUrl }] : [];
     let pc;
-    try { pc = new RTCPeerConnection({ iceServers: [] }); }
+    try { pc = new RTCPeerConnection({ iceServers: ice }); }
     catch (e) { this.setState({ camErr: true }); return; }
     this._pc = pc;
     const base = url.replace(/\/+$/, '');
@@ -711,7 +896,7 @@ class Component extends DCLogic {
     };
     pc.onicecandidate = (ev) => {
       if (ev.candidate !== null) return;   // wait for full (non-trickle) ICE, like the host's own client
-      fetch(base + '/call/webrtc_local', {
+      fetch(base + (this.state.signalingPath || '/call/webrtc_local'), {
         method: 'POST', headers: { 'Content-Type': 'plain/text' },
         body: btoa(JSON.stringify({ type: 'offer', sdp: pc.localDescription.sdp })),
       }).then((r) => r.text())
@@ -729,6 +914,191 @@ class Component extends DCLogic {
   _camVideo(el) {
     this._cv = el || null;
     if (el && this._cstream) { try { el.srcObject = this._cstream; } catch (e) {} }
+  }
+
+  // ---- temperature setters (shared by keypad + dropdown) ----
+  setHotendTemp(v) { this.gcode('M104 S' + v, 'hotend → ' + (v ? v + '°' : 'off')); if (!this.online()) this.setState((s) => ({ demoTemps: Object.assign({}, s.demoTemps, { hotend: v }) })); }
+  setBedTemp(v) { this.gcode('M140 S' + v, 'bed → ' + (v ? v + '°' : 'off')); if (!this.online()) this.setState((s) => ({ demoTemps: Object.assign({}, s.demoTemps, { bed: v }) })); }
+  setChamberTemp(v) {
+    if (this.online() && !this.objMap.chamberHeater) { this.flash('no chamber heater configured', 'error'); return; }
+    if (this.objMap.chamberHeater) this.gcode('SET_HEATER_TEMPERATURE HEATER=' + this.objMap.chamberHeater.slice(15) + ' TARGET=' + v, 'chamber → ' + (v ? v + '°' : 'off'));
+    else this.flash('chamber → ' + (v ? v + '°' : 'off'));
+    if (!this.online()) this.setState((s) => ({ demoTemps: Object.assign({}, s.demoTemps, { chamber: v }) }));
+  }
+  setFanPct(p) { this.gcode(p === 0 ? 'M107' : 'M106 S' + Math.round(p / 100 * 255), 'fan → ' + p + '%'); if (!this.online()) this.setState((s) => ({ demoTemps: Object.assign({}, s.demoTemps, { fan: p }) })); }
+
+  // ---- connection / camera apply (shared by buttons + keyboard Enter) ----
+  _connectTo(raw) {
+    const u = this.normalizeUrl(raw);
+    try { localStorage.setItem('sl_mk_url', u); } catch (e) {}
+    this.setState({ mkUrl: u, urlDraft: u });
+    this._backoff = 1000;
+    this.flash('connecting to ' + u);
+    this.connect(u);
+  }
+  _applyCam(raw) {
+    const u = (raw || '').trim();
+    try { localStorage.setItem('sl_cam_url', u); } catch (e) {}
+    this.setState({ camUrl: u, camDraft: u, camErr: false });
+    this.flash('camera updated');
+    if (this.state.homeView === 'camera') this.startCam(u);
+  }
+
+  // ---- on-screen keyboard + numeric keypad ----
+  openKeyboard(field, value) { this._kbInput = null; if (field === 'gcode') { this._histIdx = -1; this._conStick = true; } this.setState({ kb: { type: 'text', field, value: value || '', shift: false, layer: 'letters' } }); }
+  openKeypad(field, value, min, max, label) { this._kbInput = null; this.setState({ kb: { type: 'num', field, value: (value == null || value === '' ? '' : String(value)), min, max, label } }); }
+  // live editable display input (text keyboard): lets mouse / touch / arrow keys position the caret
+  _kbInputRef(el) {
+    this._kbInput = el || null;
+    if (el && !el._slBound) {
+      el._slBound = true;
+      requestAnimationFrame(() => { try { el.focus(); const n = el.value.length; el.setSelectionRange(n, n); } catch (e) {} });
+    }
+  }
+  kbOnChange(e) { const v = e.target.value; this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: v }) }) : null); }
+  kbOnKeyDown(e) {
+    const kb = this.state.kb; if (!kb) return;
+    if (e.key === 'Enter') { e.preventDefault(); this.kbCommit(); return; }
+    if (e.key === 'Escape') { e.preventDefault(); this.kbCancel(); return; }
+    if (kb.field === 'gcode') {
+      if (e.key === 'ArrowUp') { e.preventDefault(); this.histUp(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); this.histDown(); return; }
+    }
+  }
+  kbAppend(ch) {
+    const el = this._kbInput, kb = this.state.kb;
+    if (!el || !kb || kb.type === 'num') { this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: s.kb.value + ch, shift: false }) }) : null); return; }
+    const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+    const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+    const v = el.value.slice(0, start) + ch + el.value.slice(end);
+    this._caret = start + ch.length;
+    this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: v, shift: false }) }) : null);
+  }
+  kbBackspace() {
+    const el = this._kbInput, kb = this.state.kb;
+    if (!el || !kb || kb.type === 'num') { this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: s.kb.value.slice(0, -1) }) }) : null); return; }
+    let start = el.selectionStart, end = el.selectionEnd;
+    if (start == null) { start = el.value.length; end = start; }
+    if (start === end) { if (start === 0) return; start -= 1; }
+    const v = el.value.slice(0, start) + el.value.slice(end);
+    this._caret = start;
+    this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: v }) }) : null);
+  }
+  // ---- sent-command history (gcode console) ----
+  histUp() {
+    if (!this._hist || !this._hist.length) return;
+    this._histIdx = Math.min((this._histIdx == null ? -1 : this._histIdx) + 1, this._hist.length - 1);
+    this._setKbValueEnd(this._hist[this._histIdx]);
+  }
+  histDown() {
+    if (this._histIdx == null || this._histIdx <= -1) { this._histIdx = -1; return; }
+    this._histIdx -= 1;
+    this._setKbValueEnd(this._histIdx === -1 ? '' : this._hist[this._histIdx]);
+  }
+  _setKbValueEnd(v) { this._caret = v.length; this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: v }) }) : null); }
+  kbToggleShift() { this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { shift: !s.kb.shift }) }) : null); }
+  kbSetLayer(l) { this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { layer: l, shift: false }) }) : null); }
+  kbCancel() { this.setState({ kb: null }); }
+  kbNumValid() { const kb = this.state.kb; if (!kb || kb.type !== 'num') return true; const v = kb.value === '' ? 0 : parseInt(kb.value, 10); if (isNaN(v)) return false; return v >= kb.min && v <= kb.max; }
+  kbCommit() {
+    const kb = this.state.kb; if (!kb) return;
+    if (kb.type === 'num') {
+      if (!this.kbNumValid()) return;
+      const v = kb.value === '' ? 0 : parseInt(kb.value, 10);
+      this.setState({ kb: null });
+      if (kb.field === 'hotend') this.setHotendTemp(v);
+      else if (kb.field === 'bed') this.setBedTemp(v);
+      else if (kb.field === 'chamber') this.setChamberTemp(v);
+    } else {
+      const v = kb.value;
+      if (kb.field === 'gcode') {
+        if (!v.trim()) { this.setState({ kb: null }); return; }
+        this.sendGcode(v);
+        this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: '' }) }) : null);
+        return;
+      }
+      this.setState({ kb: null });
+      if (kb.field === 'mkUrl') this._connectTo(v);
+      else if (kb.field === 'camUrl') this._applyCam(v);
+      else if (kb.field === 'signaling') { const p = v || '/call/webrtc_local'; try { localStorage.setItem('sl_cam_signaling', p); } catch (e) {} this.setState({ signalingPath: p, sigDraft: p }); }
+      else if (kb.field === 'stun') { try { localStorage.setItem('sl_cam_stun_url', v); } catch (e) {} this.setState({ stunUrl: v, stunDraft: v }); }
+    }
+  }
+
+  // ---- dropdown overlay ----
+  openDropdown(field, options, value) { this.setState({ dd: { field, options, value } }); }
+  ddSelect(v) {
+    const f = this.state.dd ? this.state.dd.field : null;
+    this.setState({ dd: null });
+    if (f === 'hotendMat') this.setHotendTemp(v);
+    else if (f === 'camMode') {
+      try { localStorage.setItem('sl_cam_mode', v); } catch (e) {}
+      this.setState({ camMode: v, camErr: false });
+      if (v === 'disabled') { this.stopCam(); if (this.state.homeView === 'camera') this.setState({ homeView: 'status' }); }
+      else if (this.state.homeView === 'camera') this.startCam();
+    }
+  }
+
+  // ---- physical keyboard for the numeric keypad (text keyboard uses the live input natively) ----
+  handleKey(e) {
+    const kb = this.state.kb;
+    if (!kb || kb.type !== 'num') return;
+    const k = e.key;
+    if (k === 'Enter') { e.preventDefault(); this.kbCommit(); return; }
+    if (k === 'Escape') { e.preventDefault(); this.kbCancel(); return; }
+    if (k === 'Backspace') { e.preventDefault(); this.kbBackspace(); return; }
+    if (k >= '0' && k <= '9') { e.preventDefault(); this.kbAppend(k); }
+  }
+
+  // ---- scale the 1024×600 screen to fit the kiosk display exactly (no scroll / no chrome) ----
+  fitKiosk() {
+    const el = document.getElementById('kioskScreen');
+    if (!el) return;
+    const root = document.documentElement;
+    root.style.overflow = 'hidden'; document.body.style.overflow = 'hidden'; document.body.style.margin = '0';
+    const s = Math.min(window.innerWidth / 1024, window.innerHeight / 600);
+    el.style.transform = 'scale(' + s + ')';
+  }
+
+  componentDidUpdate() {
+    if (this._con && this._caret == null && this._conStick !== false) { try { this._con.scrollTop = this._con.scrollHeight; } catch (e) {} }
+    if (this._kbInput && this._caret != null) {
+      const c = this._caret; this._caret = null;
+      try { this._kbInput.setSelectionRange(c, c); } catch (e) {}
+    }
+  }
+
+  // console sticks to the bottom only while the user is already at the bottom
+  conOnScroll() {
+    const el = this._con; if (!el) return;
+    this._conStick = (el.scrollHeight - el.scrollTop - el.clientHeight) < 24;
+  }
+
+  // ---- gcode console ----
+  pushConsole(t, text) {
+    if (text == null || text === '') return;
+    const lines = String(text).replace(/\s+$/, '').split('\n');
+    this.setState((s) => {
+      let arr = s.console;
+      lines.forEach((ln) => { arr = arr.concat([{ t, text: ln, id: ++this._conId }]); });
+      if (arr.length > 200) arr = arr.slice(arr.length - 200);
+      return { console: arr };
+    });
+  }
+  sendGcode(raw) {
+    const cmd = (raw || '').trim();
+    if (!cmd) return;
+    if (!this._hist) this._hist = [];
+    if (this._hist[0] !== cmd) this._hist.unshift(cmd);
+    if (this._hist.length > 50) this._hist = this._hist.slice(0, 50);
+    this._histIdx = -1;
+    this._conStick = true;
+    this.pushConsole('in', cmd);
+    if (this.online()) {
+      this.rpc('printer.gcode.script', { script: cmd }).catch((e) => this.pushConsole('err', '!! ' + (e.message || e)));
+    } else {
+      setTimeout(() => this.pushConsole('out', 'ok'), 120);
+    }
   }
 
   normalizeUrl(s) {
@@ -804,7 +1174,7 @@ class Component extends DCLogic {
       const info = await this.rpc('printer.info');
       if (info) { this.info = info; this.setState({ klippy: info.state || 'ready' }); }
     } catch (e) {
-      // klippy not ready yet — wait for notify_klippy_ready
+      // klippy not ready yet, wait for notify_klippy_ready
       this.setState({ conn: 'error' });
       return;
     }
@@ -872,7 +1242,11 @@ class Component extends DCLogic {
       if (m.params && m.params[0]) { this.mergeStatus(m.params[0]); this.scheduleRender(); }
     } else if (m.method === 'notify_gcode_response') {
       const txt = m.params && m.params[0];
-      if (txt && (txt.indexOf('!!') === 0 || /error/i.test(txt))) this.flash(txt.replace(/^[/!]+\s*/, ''), 'error');
+      if (txt) {
+        const isErr = txt.indexOf('!!') === 0 || /error/i.test(txt);
+        this.pushConsole(isErr ? 'err' : 'out', txt);
+        if (isErr) this.flash(txt.replace(/^[/!]+\s*/, ''), 'error');
+      }
     } else if (m.method === 'notify_klippy_ready') {
       this.setState({ klippy: 'ready' });
       this.subscribeAll();
@@ -967,7 +1341,7 @@ class Component extends DCLogic {
     let remaining = null;
     if (printing && progress > 1) { const total = dur / (progress / 100); remaining = Math.max(0, total - dur); }
     const info = ps.info || {};
-    const layer = (info.current_layer != null && info.total_layer != null) ? (info.current_layer + ' / ' + info.total_layer) : '—';
+    const layer = (info.current_layer != null && info.total_layer != null) ? (info.current_layer + ' / ' + info.total_layer) : '-';
     return {
       online: true, printing, paused,
       hotendCur: Math.round(this.num('extruder', 'temperature', 0)),
@@ -980,9 +1354,9 @@ class Component extends DCLogic {
       mcuCur: mcuO ? Math.round(this.num(mcuO, 'temperature', 0)) : null,
       fanPct: Math.round(this.num('fan', 'speed', 0) * 100),
       progress: isNaN(progress) ? 0 : progress,
-      file: (ps.filename ? String(ps.filename).split('/').pop() : '—'),
+      file: (ps.filename ? String(ps.filename).split('/').pop() : '-'),
       layer,
-      elapsed: this.fmtDur(dur), remaining: remaining == null ? '—' : this.fmtDur(remaining),
+      elapsed: this.fmtDur(dur), remaining: remaining == null ? '-' : this.fmtDur(remaining),
       zmm: ((pos[2] != null ? pos[2] : 0).toFixed(2)) + ' mm',
       posX: (pos[0] || 0).toFixed(1), posY: (pos[1] || 0).toFixed(1), posZ: (pos[2] || 0).toFixed(2),
       homed: th.homed_axes || '',
@@ -1022,7 +1396,7 @@ class Component extends DCLogic {
     const ext0 = read(0, 1);
     return {
       count,
-      ext: { name: ext0.empty ? 'Empty' : ext0.name, material: ext0.material || '—', percent: ext0.percent, color: ext0.color ? '#' + ext0.color : '#3a3f4a' },
+      ext: { name: ext0.empty ? 'Empty' : ext0.name, material: ext0.material || '-', percent: ext0.percent, color: ext0.color ? '#' + ext0.color : '#3a3f4a' },
       slots: (idx) => [1, 2, 3, 4].map((s) => read(idx + 1, s)),
     };
   }
@@ -1039,7 +1413,7 @@ class Component extends DCLogic {
         { name: 'Signal Red', material: 'ABS', color: '#ff6b6b', percent: 50 },
         { name: 'Toxic Green', material: 'PLA', color: '#3fcf8e', percent: 73 },
         { name: 'Royal Violet', material: 'PETG', color: '#9b5cff', percent: 18 },
-        { name: 'Empty', material: '—', color: '#1a2036', percent: 0, empty: true },
+        { name: 'Empty', material: '-', color: '#1a2036', percent: 0, empty: true },
       ],
       [
         { name: 'Slate Grey', material: 'PLA', color: '#5b6883', percent: 67 },
@@ -1051,7 +1425,7 @@ class Component extends DCLogic {
         { name: 'Magenta', material: 'PLA', color: '#d6219b', percent: 23 },
         { name: 'Sky', material: 'PLA', color: '#7cc5ff', percent: 59 },
         { name: 'Forest', material: 'PETG', color: '#2e7d4f', percent: 72 },
-        { name: 'Empty', material: '—', color: '#1a2036', percent: 0, empty: true },
+        { name: 'Empty', material: '-', color: '#1a2036', percent: 0, empty: true },
       ],
     ];
   }
@@ -1061,7 +1435,7 @@ class Component extends DCLogic {
     return 'flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:100%;border-radius:11px;font-family:\'Manrope\',sans-serif;font-weight:700;font-size:16px;cursor:pointer;transition:all .12s;border:1px solid ' +
       (active ? 'var(--accentdim)' : 'var(--b2)') + ';background:' +
       (active ? 'linear-gradient(180deg,var(--ad1),var(--ad2))' : 'var(--control)') + ';color:' +
-      (active ? 'var(--accent2)' : 'var(--tx3)') + ';box-shadow:' +
+      (active ? 'var(--seg-on)' : 'var(--tx3)') + ';box-shadow:' +
       (active ? '0 0 0 1px rgba(var(--accent-rgb),.3),0 0 12px -3px rgba(var(--accent-rgb),.4)' : 'none') + ';';
   }
 
@@ -1080,14 +1454,14 @@ class Component extends DCLogic {
       num: sl.num,
       name: empty ? 'Empty slot' : (sl.name || 'Slot ' + sl.num),
       nameColor: empty ? 'var(--txf)' : 'var(--tx)',
-      material: sl.material || '—',
+      material: sl.material || '-',
       color,
       percent: sl.percent || 0,
       loaded: !!sl.loaded,
       barColor: empty ? 'var(--b1)' : color,
       swatchGlow: sl.loaded ? 'box-shadow:inset 0 0 0 6px var(--bg2),0 0 16px -2px ' + color + ';' : '',
       cardStyle: 'background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid ' + (sl.loaded ? 'rgba(var(--success-rgb),.45)' : 'var(--b2)') + ';border-radius:14px;padding:15px 16px;display:flex;flex-direction:column;min-height:0;' + (sl.loaded ? 'box-shadow:0 0 0 1px rgba(var(--success-rgb),.2),0 0 22px -8px rgba(var(--success-rgb),.5);' : ''),
-      btnLabel: empty ? '—' : (sl.loaded ? 'Unload' : 'Load'),
+      btnLabel: empty ? '-' : (sl.loaded ? 'Unload' : 'Load'),
       btnStyle: 'height:36px;padding:0 16px;border-radius:9px;font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:' + (empty ? 'default' : 'pointer') + ';transition:all .12s;border:1px solid ' +
         (empty ? 'var(--b1)' : (sl.loaded ? 'var(--b3)' : 'var(--accentdim)')) + ';background:' +
         (empty ? 'var(--inset)' : (sl.loaded ? 'var(--control)' : 'linear-gradient(180deg,var(--ad1),var(--ad2))')) + ';color:' +
@@ -1100,6 +1474,8 @@ class Component extends DCLogic {
     const set = (o) => this.setState(o);
     const P = this.view();
     const online = P.online;
+    const goPrinterTab = (tab) => set({ screen: 'printer', printerTab: tab, kb: null, dd: null });
+    const goSettingsNav = () => set({ screen: 'settings', kb: null, dd: null });
 
     // ---- titles ----
     const titles = {
@@ -1129,23 +1505,23 @@ class Component extends DCLogic {
     const statusMap = P.printing
       ? (P.paused
         ? { label: 'Paused', text: 'var(--warning)', dot: 'var(--warning)', bg: 'rgba(var(--warning-rgb),.1)', border: 'rgba(var(--warning-rgb),.4)', anim: '' }
-        : { label: 'Printing', text: 'var(--accent2)', dot: 'var(--accent)', bg: 'var(--ad2)', border: 'var(--accentdim)', anim: 'animation:slPulse 2s ease-in-out infinite;' })
+        : { label: 'Printing', text: 'var(--seg-on)', dot: 'var(--accent)', bg: 'var(--ad2)', border: 'var(--accentdim)', anim: 'animation:slPulse 2s ease-in-out infinite;' })
       : { label: 'Ready', text: 'var(--success)', dot: 'var(--success)', bg: 'rgba(var(--success-rgb),.1)', border: 'rgba(var(--success-rgb),.4)', anim: '' };
 
     // ---- temps display ----
-    const deg = (v) => (v == null ? '—' : v + '°');
+    const deg = (v) => (v == null ? '-' : v + '°');
     const homeTemps = [
-      { label: 'Hotend', value: deg(P.hotendCur), target: P.hotendTgt ? ' / ' + P.hotendTgt + '°' : ' / off', color: 'var(--ember)', iconBg: 'rgba(var(--ember-rgb),.12)' },
-      { label: 'MCU (toolhead)', value: deg(P.mcuCur), target: '', color: 'var(--accent)', iconBg: 'rgba(var(--accent-rgb),.12)' },
-      { label: 'Chamber', value: deg(P.chamberCur), target: '', color: 'var(--accent2)', iconBg: 'rgba(var(--accent-rgb),.12)' },
+      { label: 'Hotend', value: deg(P.hotendCur), target: P.hotendTgt ? ' / ' + P.hotendTgt + '°' : ' / off', color: 'var(--ember)', iconBg: 'rgba(var(--ember-rgb),.12)', on: () => goPrinterTab('extrude'), cursor: 'pointer', hoverBorder: 'var(--accentdim)' },
+      { label: 'MCU (toolhead)', value: deg(P.mcuCur), target: '', color: 'var(--accent)', iconBg: 'rgba(var(--accent-rgb),.12)', on: undefined, cursor: 'default', hoverBorder: 'var(--b2)' },
+      { label: 'Bed', value: deg(P.bedCur), target: P.bedTgt ? ' / ' + P.bedTgt + '°' : ' / off', color: 'var(--accent2)', iconBg: 'rgba(var(--accent-rgb),.12)', on: () => goPrinterTab('temps'), cursor: 'pointer', hoverBorder: 'var(--accentdim)' },
     ];
 
     const quickStatus = [
-      { label: 'Klippy', value: online ? (S.klippy || 'ready') : 'demo', color: (online && (S.klippy === 'ready')) ? 'var(--success)' : (online ? 'var(--warning)' : 'var(--txd)') },
-      { label: 'Homed', value: P.homed ? P.homed.toUpperCase() : 'no', color: (P.homed && P.homed.length >= 3) ? 'var(--success)' : 'var(--warning)' },
-      { label: 'Part fan', value: P.fanPct + '%', color: 'var(--accent)' },
-      { label: 'Bed', value: deg(P.bedCur) + (P.bedTgt ? ' / ' + P.bedTgt + '°' : ''), color: 'var(--accent2)' },
+      { label: 'Klippy', value: online ? (S.klippy || 'ready') : 'demo', color: (online && (S.klippy === 'ready')) ? 'var(--success)' : (online ? 'var(--warning)' : 'var(--txd)'), on: () => goSettingsNav(), cursor: 'pointer', hoverBorder: 'var(--accentdim)' },
+      { label: 'Homed', value: P.homed ? P.homed.toUpperCase() : 'no', color: (P.homed && P.homed.length >= 3) ? 'var(--success)' : 'var(--warning)', on: () => goPrinterTab('motion'), cursor: 'pointer', hoverBorder: 'var(--accentdim)' },
+      { label: 'Part fan', value: P.fanPct + '%', color: 'var(--accent)', on: () => goPrinterTab('temps'), cursor: 'pointer', hoverBorder: 'var(--accentdim)' },
     ];
+    if (!S.chamberDisabled) quickStatus.push({ label: 'Chamber', value: deg(P.chamberCur) + (P.chamberTgt ? ' / ' + P.chamberTgt + '°' : ''), color: 'var(--accent)', on: undefined, cursor: 'default', hoverBorder: 'var(--b2)' });
 
     const job = { file: P.file, percent: P.progress, layer: P.layer, elapsed: P.elapsed, remaining: P.remaining, z: P.zmm };
 
@@ -1183,9 +1559,9 @@ class Component extends DCLogic {
     const presetRow = (cur, opts, fn) => opts.map(([label, val]) => ({ label, style: this.seg(cur === val), on: () => fn(val) }));
     const tgtTxt = (v) => v ? ' → ' + v + '°' : '';
     const tempCards = [
-      { label: 'Hotend', color: 'var(--ember)', current: P.hotendCur == null ? '—' : P.hotendCur, unit: '°C', tgt: tgtTxt(P.hotendTgt), presets: presetRow(P.hotendTgt, [['Off', 0], ['PLA 200', 200], ['PETG 240', 240]], setHotend) },
-      { label: 'Bed', color: 'var(--accent2)', current: P.bedCur == null ? '—' : P.bedCur, unit: '°C', tgt: tgtTxt(P.bedTgt), presets: presetRow(P.bedTgt, [['Off', 0], ['60°', 60], ['90°', 90]], setBed) },
-      { label: 'Chamber', color: 'var(--accent)', current: P.chamberCur == null ? '—' : P.chamberCur, unit: '°C', tgt: tgtTxt(P.chamberTgt), presets: presetRow(P.chamberTgt, [['Off', 0], ['40°', 40], ['60°', 60]], setChamber) },
+      { label: 'Hotend', color: 'var(--ember)', current: P.hotendCur == null ? '-' : P.hotendCur, unit: '°C', tgt: tgtTxt(P.hotendTgt), presets: presetRow(P.hotendTgt, [['Off', 0], ['PLA 200', 200], ['PETG 240', 240]], setHotend) },
+      { label: 'Bed', color: 'var(--accent2)', current: P.bedCur == null ? '-' : P.bedCur, unit: '°C', tgt: tgtTxt(P.bedTgt), presets: presetRow(P.bedTgt, [['Off', 0], ['60°', 60], ['90°', 90]], setBed) },
+      { label: 'Chamber', color: 'var(--accent)', current: P.chamberCur == null ? '-' : P.chamberCur, unit: '°C', tgt: tgtTxt(P.chamberTgt), presets: presetRow(P.chamberTgt, [['Off', 0], ['40°', 40], ['60°', 60]], setChamber) },
       { label: 'Part fan', color: 'var(--tx3)', current: P.fanPct, unit: '%', tgt: '', presets: presetRow(P.fanPct, [['0%', 0], ['50%', 50], ['100%', 100]], setFan) },
     ];
 
@@ -1197,7 +1573,7 @@ class Component extends DCLogic {
       ? { guardLabel: 'ready · ' + P.hotendCur + '°', guardBorder: 'rgba(var(--success-rgb),.4)', guardBg: 'rgba(var(--success-rgb),.1)', guardDot: 'var(--success)', guardText: 'var(--success)' }
       : { guardLabel: 'cold · heat first', guardBorder: 'rgba(var(--warning-rgb),.4)', guardBg: 'rgba(var(--warning-rgb),.1)', guardDot: 'var(--warning)', guardText: 'var(--warning)' };
     const doExtrudeFn = (sign) => {
-      if (online && !hot) { this.flash('hotend cold — heat to 170°+ first', 'error'); return; }
+      if (online && !hot) { this.flash('hotend cold, heat to 170°+ first', 'error'); return; }
       this.gcode('M83\nG1 E' + (sign * S.extrudeLen) + ' F300', (sign > 0 ? 'extrude ' : 'retract ') + S.extrudeLen + 'mm');
     };
 
@@ -1236,7 +1612,7 @@ class Component extends DCLogic {
       clean: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21s1-3 4-3 4 2 6 2 4-2 4-2"/><path d="M14 3 6 11l3 3 8-8z"/><path d="m12 5 3 3"/></svg>',
     };
     // Order matters: "Run selected" runs these top-to-bottom, so a full run
-    // builds on itself — stable temp, clean tip, then anything that touches the
+    // builds on itself: stable temp, clean tip, then anything that touches the
     // bed (prtouch is a nozzle-contact probe), then temp-independent tests last.
     const maintDefs = [
       { id: 'pid', title: 'PID tune', sub: 'hotend control', icon: ic.pid, script: 'PID_CALIBRATE HEATER=extruder TARGET=200' },
@@ -1264,7 +1640,7 @@ class Component extends DCLogic {
     });
     const selDefs = maintDefs.filter((d) => sel[d.id]);
     const nSel = selDefs.length;
-    const maintSelLabel = nSel ? (nSel + ' routine' + (nSel > 1 ? 's' : '') + ' selected — runs in order') : 'tap routines to select';
+    const maintSelLabel = nSel ? (nSel + ' routine' + (nSel > 1 ? 's' : '') + ' selected, runs in order') : 'tap routines to select';
     const maintSelColor = nSel ? 'var(--tx2)' : 'var(--txf)';
     const runLabel = nSel ? ('Run selected · ' + nSel) : 'Run selected';
     const runBtnStyle = 'height:44px;padding:0 22px;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:9px;font-family:\'Manrope\';font-weight:700;font-size:15px;border:1px solid ' +
@@ -1277,14 +1653,27 @@ class Component extends DCLogic {
     };
     const clearSel = () => set({ maintSel: {} });
 
+    // ---- maintenance tabs + gcode console ----
+    const maintTab = S.maintTab || 'routines';
+    const maintTabs = [['routines', 'Routines'], ['console', 'Console']].map(([id, label]) => ({ label, style: this.seg(maintTab === id), on: () => set({ maintTab: id }) }));
+    const consoleLines = (S.console || []).map((l) => ({
+      key: l.id,
+      disp: (l.t === 'in' ? '> ' : '') + l.text,
+      color: l.t === 'in' ? 'var(--accent-ink)' : (l.t === 'err' ? 'var(--danger)' : 'var(--tx3)'),
+    }));
+    const consoleEmpty = consoleLines.length === 0;
+    this._conRef = this._conRef || ((el) => { this._con = el || null; if (el) { try { el.scrollTop = el.scrollHeight; } catch (e) {} } });
+    const gcodeValue = (S.kb && S.kb.field === 'gcode') ? S.kb.value : '';
+    const sendGcodeNow = () => { const v = (S.kb && S.kb.field === 'gcode') ? S.kb.value : ''; this.sendGcode(v); if (S.kb && S.kb.field === 'gcode') this.setState((s) => s.kb ? ({ kb: Object.assign({}, s.kb, { value: '' }) }) : null); };
+
     // ---- settings / system ----
-    const sysHost = (this.info && this.info.hostname) ? this.info.hostname : (online ? '—' : 'stonelabs.local');
-    const sysKlipper = (this.info && this.info.software_version) ? this.info.software_version : (online ? '—' : 'demo');
+    const sysHost = (this.info && this.info.hostname) ? this.info.hostname : (online ? '-' : 'stonelabs.local');
+    const sysKlipper = (this.info && this.info.software_version) ? this.info.software_version : (online ? '-' : 'demo');
     const sysState = online ? (S.klippy || 'ready') : 'demo';
     const sysStateColor = sysState === 'ready' ? 'var(--success)' : (sysState === 'shutdown' || sysState === 'error' || sysState === 'disconnected') ? 'var(--danger)' : 'var(--warning)';
 
     const printToggle = 'height:34px;padding:0 16px;border-radius:9px;font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:pointer;border:1px solid ' +
-      (S.demoPrinting ? 'var(--accentdim)' : 'var(--b3)') + ';background:' + (S.demoPrinting ? 'var(--ad2)' : 'var(--control)') + ';color:' + (S.demoPrinting ? 'var(--accent2)' : 'var(--tx3)') + ';';
+      (S.demoPrinting ? 'var(--accentdim)' : 'var(--b3)') + ';background:' + (S.demoPrinting ? 'var(--ad2)' : 'var(--control)') + ';color:' + (S.demoPrinting ? 'var(--seg-on)' : 'var(--tx3)') + ';';
 
     const toastDot = S.toastKind === 'error' ? 'var(--danger)' : 'var(--accent)';
     const toastBorder = S.toastKind === 'error' ? 'var(--danger-b)' : 'var(--accentdim)';
@@ -1293,16 +1682,17 @@ class Component extends DCLogic {
     const themeList = [['cyan', 'Cyan', 'var(--accent)'], ['crimson', 'Crimson', '#e23b4e'], ['amber', 'Amber + Navy', '#ff8a3c'], ['mono', 'Mono', '#f5f5f5'], ['grey', 'Greyscale', '#9aa3b2'], ['sage', 'Sage', '#8ab48a']];
     const swatchStyle = (active) => 'width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--control);transition:all .12s;border:2px solid ' + (active ? 'var(--accent)' : 'var(--b2)') + ';' + (active ? 'box-shadow:0 0 0 2px rgba(var(--accent-rgb),.3);' : '');
     const themeSwatches = themeList.map(([id, name, sw]) => ({ id, name, swatch: id === S.themeId ? 'var(--accent)' : sw, style: swatchStyle(S.themeId === id), on: () => { set({ themeId: id }); try { localStorage.setItem('sl_theme', id); } catch (e) {} } }));
-    const modeBtn = (active) => 'height:26px;padding:0 13px;border-radius:7px;font-family:\'Manrope\';font-weight:700;font-size:12px;cursor:pointer;border:none;background:' + (active ? 'var(--ad1)' : 'transparent') + ';color:' + (active ? 'var(--accent2)' : 'var(--txd)') + ';';
+    const modeBtn = (active) => 'height:26px;padding:0 13px;border-radius:7px;font-family:\'Manrope\';font-weight:700;font-size:12px;cursor:pointer;border:none;background:' + (active ? 'var(--ad1)' : 'transparent') + ';color:' + (active ? 'var(--seg-on)' : 'var(--txd)') + ';';
 
     // ---- home camera ----
     const segSm = (active) => 'height:32px;padding:0 18px;border-radius:9px;font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:pointer;border:1px solid ' +
-      (active ? 'var(--accentdim)' : 'transparent') + ';background:' + (active ? 'linear-gradient(180deg,var(--ad1),var(--ad2))' : 'transparent') + ';color:' + (active ? 'var(--accent2)' : 'var(--txd)') + ';';
-    const homeCamera = S.homeView === 'camera';
+      (active ? 'var(--accentdim)' : 'transparent') + ';background:' + (active ? 'linear-gradient(180deg,var(--ad1),var(--ad2))' : 'transparent') + ';color:' + (active ? 'var(--seg-on)' : 'var(--txd)') + ';';
+    const camDisabled = S.camMode === 'disabled';
+    const homeCamera = S.homeView === 'camera' && !camDisabled;
     const homeStatus = !homeCamera;
     const camOk = homeCamera && !!S.camUrl && !S.camErr;
     const camErr = homeCamera && !camOk;
-    const isWebrtc = !!S.camUrl && !/action=stream/i.test(S.camUrl);
+    const isWebrtc = S.camMode === 'webrtc';
     this._camVideoRef = this._camVideoRef || ((el) => this._camVideo(el));   // stable ref: no remount per render
     const cameraImg = !camOk ? null : (isWebrtc
       ? React.createElement('video', {
@@ -1315,18 +1705,90 @@ class Component extends DCLogic {
           style: { width: '100%', height: '100%', objectFit: 'contain', background: 'var(--bg)' },
         }));
 
+    // ---- temperature tab (keypad / dropdown driven) ----
+    const readoutBtn = 'display:inline-flex;align-items:center;border:1px solid var(--b2);background:var(--inset);border-radius:9px;padding:5px 11px;cursor:pointer;transition:all .12s;';
+    const readoutBtnLg = 'display:inline-flex;align-items:center;border:1px solid var(--b2);background:var(--inset);border-radius:10px;padding:8px 14px;margin-top:8px;align-self:flex-start;cursor:pointer;transition:all .12s;';
+    const matDropBtn = 'width:100%;display:flex;align-items:center;justify-content:space-between;height:44px;border-radius:11px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:\'Manrope\';font-weight:700;font-size:14px;cursor:pointer;padding:0 14px;transition:all .12s;';
+    const offBtn = 'width:96px;height:44px;border-radius:11px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:\'Manrope\';font-weight:700;font-size:14px;cursor:pointer;transition:all .12s;flex:none;';
+    const offBtnSm = 'width:74px;height:40px;border-radius:10px;border:1px solid var(--b3);background:var(--control);color:var(--tx2);font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:pointer;transition:all .12s;flex:none;';
+    const hotendMats = [['Off', 0], ['PLA 220', 220], ['PETG 240', 240], ['ABS 255', 255], ['PC 265', 265], ['PA6-GF 290', 290]];
+    const hotendMat = hotendMats.find((m) => m[1] === P.hotendTgt);
+    const hotendMatLabel = hotendMat ? hotendMat[0] : 'Set target…';
+    const tgtArrow = (v) => v ? ' → ' + v + '°' : '';
+    const showChamber = !S.chamberDisabled;
+
+    // ---- settings: camera + switches ----
+    const camModeLabels = { webrtc: 'WebRTC', mjpeg: 'MJPEG', disabled: 'Disabled' };
+    const kbActive = (f) => !!(S.kb && S.kb.type === 'text' && S.kb.field === f);
+    const sw = (on) => 'width:46px;height:26px;border-radius:999px;border:1px solid ' + (on ? 'var(--accentdim)' : 'var(--b3)') + ';background:' + (on ? 'var(--ad2)' : 'var(--control)') + ';position:relative;cursor:pointer;transition:all .15s;flex:none;padding:0;';
+    const swKnob = (on) => 'position:absolute;top:2px;' + (on ? 'left:22px' : 'left:2px') + ';width:20px;height:20px;border-radius:50%;background:' + (on ? 'var(--accent)' : 'var(--b3)') + ';transition:all .15s;display:block;';
+
+    // ---- on-screen keyboard / numeric keypad / dropdown render data ----
+    const kb = S.kb;
+    const kbText = !!kb && kb.type === 'text';
+    const kbNum = !!kb && kb.type === 'num';
+    const stop = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+    const APOS = String.fromCharCode(39);
+    let kbRows = [], padKeys = [], kbDisplay = '', kbTitle = '', kbRange = '', kbRangeColor = 'var(--txd)';
+    if (kbText) {
+      const titles = { mkUrl: 'Moonraker URL', camUrl: 'Camera URL', signaling: 'Signaling path', stun: 'STUN URL', gcode: 'G-code console' };
+      kbTitle = titles[kb.field] || 'Text entry';
+      kbDisplay = kb.value;
+      const sh = kb.shift;
+      const keyStyle = 'min-width:0;flex:1;height:46px;border-radius:8px;border:1px solid var(--b2);background:var(--control);color:var(--tx);font-family:\'Manrope\';font-weight:600;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      const wide = (grow, accent) => 'min-width:0;flex:' + grow + ';height:46px;border-radius:8px;border:1px solid ' + (accent ? 'var(--accent)' : 'var(--b3)') + ';background:' + (accent ? 'linear-gradient(180deg,var(--ad1),var(--ad2))' : 'var(--inset)') + ';color:' + (accent ? 'var(--accentfg)' : 'var(--tx2)') + ';font-family:\'Manrope\';font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      const ch = (c, lbl) => ({ label: lbl == null ? c : lbl, style: keyStyle, on: () => this.kbAppend(c) });
+      const row = (s) => s.split('').map((c) => ch(sh && kb.layer === 'letters' ? c.toUpperCase() : c));
+      const shiftStyle = 'min-width:0;flex:1.5;height:46px;border-radius:8px;border:1px solid ' + (sh ? 'var(--accentdim)' : 'var(--b3)') + ';background:' + (sh ? 'var(--ad2)' : 'var(--inset)') + ';color:' + (sh ? 'var(--accent2)' : 'var(--tx2)') + ';font-family:\'Manrope\';font-weight:700;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      if (kb.layer === 'letters') {
+        kbRows = [
+          row('qwertyuiop'),
+          row('asdfghjkl'),
+          [{ label: '⇧', style: shiftStyle, on: () => this.kbToggleShift() }].concat(row('zxcvbnm'), [{ label: '⌫', style: wide(1.5), on: () => this.kbBackspace() }]),
+          [{ label: '123', style: wide(1.5), on: () => this.kbSetLayer('symbols') }, ch('.'), ch('-'), ch('/'), ch(':'), { label: 'space', style: wide(4), on: () => this.kbAppend(' ') }, ch('_'), { label: 'enter', style: wide(2, true), on: () => this.kbCommit() }],
+        ];
+      } else {
+        kbRows = [
+          row('1234567890'),
+          [ch('-'), ch('/'), ch(':'), ch(';'), ch('('), ch(')'), ch('$'), ch('&'), ch('@'), ch('"')],
+          [ch('.'), ch(','), ch('?'), ch('!'), ch(APOS), ch('='), ch('+'), ch('*'), { label: '⌫', style: wide(1.5), on: () => this.kbBackspace() }],
+          [{ label: 'abc', style: wide(1.5), on: () => this.kbSetLayer('letters') }, ch('_'), ch('~'), { label: 'space', style: wide(4), on: () => this.kbAppend(' ') }, ch('/'), { label: 'enter', style: wide(2, true), on: () => this.kbCommit() }],
+        ];
+      }
+    } else if (kbNum) {
+      kbTitle = kb.label || 'Enter value';
+      kbDisplay = kb.value === '' ? '0' : kb.value;
+      kbRange = kb.min + '–' + kb.max + '°';
+      const valid = this.kbNumValid();
+      kbRangeColor = valid ? 'var(--txd)' : 'var(--danger)';
+      const numStyle = 'height:52px;border-radius:11px;border:1px solid var(--b2);background:var(--control);color:var(--tx);font-family:\'JetBrains Mono\';font-weight:500;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      const numKey = (n) => ({ label: String(n), style: numStyle, on: () => this.kbAppend(String(n)) });
+      padKeys = [numKey(1), numKey(2), numKey(3), numKey(4), numKey(5), numKey(6), numKey(7), numKey(8), numKey(9),
+        { label: '⌫', style: 'height:52px;border-radius:11px;border:1px solid var(--b3);background:var(--inset);color:var(--tx2);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;', on: () => this.kbBackspace() },
+        numKey(0),
+        { label: '✓', style: 'height:52px;border-radius:11px;border:1px solid ' + (valid ? 'var(--accent)' : 'var(--b2)') + ';background:' + (valid ? 'linear-gradient(180deg,var(--ad1),var(--ad2))' : 'var(--inset)') + ';color:' + (valid ? 'var(--accentfg)' : 'var(--txf)') + ';font-size:24px;cursor:' + (valid ? 'pointer' : 'default') + ';display:flex;align-items:center;justify-content:center;', on: () => { if (valid) this.kbCommit(); } },
+      ];
+    }
+    const dd = S.dd;
+    const ddOpen = !!dd;
+    const ddOptions = ddOpen ? dd.options.map((o) => ({
+      label: o.label, active: o.value === dd.value,
+      style: 'width:100%;display:flex;align-items:center;justify-content:space-between;height:46px;padding:0 14px;border-radius:10px;border:none;background:transparent;color:' + (o.value === dd.value ? 'var(--accent2)' : 'var(--tx2)') + ';font-family:\'Manrope\';font-weight:700;font-size:15px;cursor:pointer;',
+      on: () => this.ddSelect(o.value),
+    })) : [];
+
     return {
       // header
       titleAccent: t.a, titleMain: t.m, clock: S.clock,
-      hdrHotend: (P.hotendCur == null ? '—' : P.hotendCur + '°'), hdrChamber: (P.chamberCur == null ? '—' : P.chamberCur + '°'),
+      hdrHotend: (P.hotendCur == null ? '-' : P.hotendCur + '°'), hdrChamber: (P.chamberCur == null ? '-' : P.chamberCur + '°'),
       connLabel: cm.label, connDot: cm.dot, connText: cm.text, connBg: cm.bg, connBorder: cm.border, connAnim: cm.anim,
       connDetail: S.mkUrl,
       statusLabel: statusMap.label, statusText: statusMap.text, statusDot: statusMap.dot, statusBg: statusMap.bg, statusBorder: statusMap.border, statusAnim: statusMap.anim,
       // nav + screens
       nav,
       isHome: S.screen === 'home', isPrinter: S.screen === 'printer', isFilament: S.screen === 'filament', isMaint: S.screen === 'maint', isSettings: S.screen === 'settings',
-      goHome: () => set({ screen: 'home' }), goPrinter: () => set({ screen: 'printer' }), goFilament: () => set({ screen: 'filament' }),
-      goMaint: () => set({ screen: 'maint' }), goSettings: () => set({ screen: 'settings' }), goFilamentBtn: () => set({ screen: 'filament' }),
+      goHome: () => set({ screen: 'home', kb: null, dd: null }), goPrinter: () => set({ screen: 'printer', kb: null, dd: null }), goFilament: () => set({ screen: 'filament', kb: null, dd: null }),
+      goMaint: () => set({ screen: 'maint', kb: null, dd: null }), goSettings: () => set({ screen: 'settings', kb: null, dd: null }), goFilamentBtn: () => set({ screen: 'filament', kb: null, dd: null }),
       estop: () => this.call('printer.emergency_stop', {}, '!! EMERGENCY STOP', 'error'),
       // home
       printing: P.printing, idle: !P.printing, printEyebrow: P.paused ? 'Paused' : 'Now printing', idleEyebrow: online ? 'Idle · machine ready' : 'Demo · not connected',
@@ -1358,25 +1820,57 @@ class Component extends DCLogic {
       unloadExt: () => this.gcode('CFS_UNLOAD_EXTERNAL', 'unloading external spool'),
       // maint
       macros, maintSelLabel, maintSelColor, runLabel, runBtnStyle, clearBtnStyle, runSelected, clearSel,
+      maintTabs, maintIsRoutines: maintTab === 'routines', maintIsConsole: maintTab === 'console',
+      consoleLines, consoleEmpty, conRef: this._conRef, conOnScroll: () => this.conOnScroll(),
+      gcodeValue, editGcode: () => this.openKeyboard('gcode', ''), sendGcodeNow, clearConsole: () => set({ console: [] }),
       // settings
       brightness: S.brightness, online, demoMode: !online,
       themeId: S.themeId, modeId: S.modeId, themeSwatches,
       modeDarkBtn: modeBtn(S.modeId === 'dark'), modeLightBtn: modeBtn(S.modeId === 'light'),
       setDark: () => { set({ modeId: 'dark' }); try { localStorage.setItem('sl_mode', 'dark'); } catch (e) {} },
       setLight: () => { set({ modeId: 'light' }); try { localStorage.setItem('sl_mode', 'light'); } catch (e) {} },
-      urlValue: S.urlDraft, onUrlInput: (e) => set({ urlDraft: e.target.value }),
-      camUrlValue: S.camDraft, onCamInput: (e) => set({ camDraft: e.target.value }),
-      applyCam: () => { const u = (S.camDraft || '').trim(); try { localStorage.setItem('sl_cam_url', u); } catch (er) {} set({ camUrl: u, camErr: false }); this.flash('camera updated'); if (S.homeView === 'camera') this.startCam(u); },
-      doConnect: () => {
-        const u = this.normalizeUrl(S.urlDraft);
-        try { localStorage.setItem('sl_mk_url', u); } catch (e) {}
-        set({ mkUrl: u, urlDraft: u });
-        this._backoff = 1000;
-        this.flash('connecting to ' + u);
-        this.connect(u);
-      },
-      sysHost, sysKlipper, sysState, sysStateColor, uiVersion: 'StoneLabs UI v1.1.0',
+      // settings: text fields (keyboard-bound), camera, switches
+      urlValue: kbActive('mkUrl') ? S.kb.value : S.urlDraft,
+      camUrlValue: kbActive('camUrl') ? S.kb.value : S.camDraft,
+      sigValue: kbActive('signaling') ? S.kb.value : S.sigDraft,
+      stunValue: kbActive('stun') ? S.kb.value : S.stunDraft,
+      editUrl: () => this.openKeyboard('mkUrl', S.urlDraft),
+      editCamUrl: () => this.openKeyboard('camUrl', S.camDraft),
+      editSig: () => this.openKeyboard('signaling', S.sigDraft),
+      editStun: () => this.openKeyboard('stun', S.stunDraft),
+      applyCam: () => this._applyCam(S.camDraft),
+      doConnect: () => this._connectTo(S.urlDraft),
+      camModeLabel: camModeLabels[S.camMode] || 'WebRTC',
+      camNotDisabled: S.camMode !== 'disabled',
+      camIsWebrtc: S.camMode === 'webrtc',
+      openCamMode: () => this.openDropdown('camMode', [{ label: 'WebRTC', value: 'webrtc' }, { label: 'MJPEG', value: 'mjpeg' }, { label: 'Disabled', value: 'disabled' }], S.camMode),
+      useStun: S.useStun,
+      stunSwitch: sw(S.useStun), stunKnob: swKnob(S.useStun),
+      toggleStun: () => { const n = !S.useStun; try { localStorage.setItem('sl_cam_stun', n ? '1' : '0'); } catch (e) {} set({ useStun: n }); if (S.homeView === 'camera' && S.camMode === 'webrtc') this.startCam(); },
+      chamberDisabled: S.chamberDisabled, showChamber,
+      chamberSwitch: sw(S.chamberDisabled), chamberKnob: swKnob(S.chamberDisabled),
+      toggleChamber: () => { const n = !S.chamberDisabled; try { localStorage.setItem('sl_chamber_disabled', n ? '1' : '0'); } catch (e) {} set({ chamberDisabled: n }); },
+      // temperature tab
+      fanPct: P.fanPct,
+      readoutBtn, readoutBtnLg, matDropBtn, offBtn, offBtnSm,
+      tHotendCur: P.hotendCur == null ? '-' : P.hotendCur, tHotendTgt: tgtArrow(P.hotendTgt),
+      tBedCur: P.bedCur == null ? '-' : P.bedCur, tBedTgt: tgtArrow(P.bedTgt),
+      tChamberCur: P.chamberCur == null ? '-' : P.chamberCur, tChamberTgt: tgtArrow(P.chamberTgt),
+      hotendMatLabel,
+      editHotend: () => this.openKeypad('hotend', '', 0, 300, 'Hotend target °C'),
+      editBed: () => this.openKeypad('bed', '', 0, 100, 'Bed target °C'),
+      editChamber: () => this.openKeypad('chamber', '', 0, 70, 'Chamber target °C'),
+      openHotendMat: () => this.openDropdown('hotendMat', hotendMats.map((m) => ({ label: m[0], value: m[1] })), P.hotendTgt),
+      bedOff: () => this.setBedTemp(0), chamberOff: () => this.setChamberTemp(0), fanOff: () => this.setFanPct(0),
+      setFanSlider: (e) => this.setFanPct(parseInt(e.target.value, 10)),
+      // overlays
+      kbText, kbNum, kbRows, padKeys, kbDisplay, kbTitle, kbRange, kbRangeColor,
+      kbCancel: () => this.kbCancel(), stop,
+      kbInputRef: (el) => this._kbInputRef(el), kbOnChange: (e) => this.kbOnChange(e), kbOnKeyDown: (e) => this.kbOnKeyDown(e),
+      ddOpen, ddOptions, ddCancel: () => this.setState({ dd: null }),
+      sysHost, sysKlipper, sysState, sysStateColor, uiVersion: 'StoneLabs UI v1.4.5',
       restartKlipper: () => this.call('printer.firmware_restart', {}, 'firmware restart…'),
+      restartTouch: () => { this.flash('restarting touchscreen…'); setTimeout(() => { try { window.location.reload(); } catch (e) {} }, 500); },
       shutdown: () => this.call('machine.shutdown', {}, 'shutting down…'),
       setBrightness: (e) => { const b = parseInt(e.target.value, 10); set({ brightness: b }); try { localStorage.setItem('sl_brightness', String(b)); } catch (er) {} },
       printToggle, printToggleLabel: S.demoPrinting ? 'Printing' : 'Idle', togglePrinting: () => set({ demoPrinting: !S.demoPrinting }),

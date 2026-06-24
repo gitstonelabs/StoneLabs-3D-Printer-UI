@@ -36,10 +36,16 @@ On a Wayland-only Jetson session, swap the `ExecStart` in the service for:
 
 ```
 ExecStart=/usr/bin/cage -- chromium --kiosk --ozone-platform=wayland \
+  --disable-features=WebRtcHideLocalIpsWithMdns \
   --app=${KIOSK_URL}
 ```
 
 (`sudo apt install cage`) and drop the X-specific `Environment=DISPLAY=:0` line.
+
+> The `--disable-features=WebRtcHideLocalIpsWithMdns` flag is required for the
+> WebRTC camera: without it Chromium hides the LAN IP behind an mDNS `.local` ICE
+> candidate the printer's WebRTC service can't resolve, and the camera stays black.
+> (On the X11 service it's merged into the existing `--disable-features` value.)
 
 ### Troubleshooting
 - **Black screen** → open `KIOSK_URL` in a normal browser on the device first;
